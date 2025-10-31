@@ -1,0 +1,15 @@
+[pull]
+	ff = only
+[core]
+	editor = code --wait
+[user]
+	name = Ben Ward
+	email = bward@quadrabee.com
+[push]
+	autoSetupRemote = true
+
+# Use personal email for dotfiles and personal projects
+[includeIf "gitdir:~/.dotfiles/"]
+	path = ~/.gitconfig-personal
+[includeIf "gitdir:~/personal/"]
+	path = ~/.gitconfig-personal

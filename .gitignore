@@ -1,0 +1,50 @@
+# Sensitive files - NEVER commit these
+*.pem
+*.key
+*_rsa
+*_dsa
+*_ecdsa
+*_ed25519
+.credentials.json
+.env
+.env.local
+
+# SSH keys and configs with passwords
+.ssh/id_*
+.ssh/*.pem
+
+# Cloud provider credentials
+.aws/credentials
+.boto
+.config/gcloud/
+
+# Docker/Kubernetes credentials
+.docker/config.json
+.kube/config
+
+# Cache and temporary files
+*.cache
+*.log
+.zcompdump*
+.z
+.zsh_history
+.bash_history
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Editor-specific
+.vscode/
+*.swp
+*.swo
+*~
+
+# Package manager caches
+.npm/
+.nvm/
+node_modules/
+
+# Personal notes (if you want to exclude them)
+NOTES.md
+TODO.md

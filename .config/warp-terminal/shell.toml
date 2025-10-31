@@ -1,0 +1,3 @@
+[shell]
+type = "zsh"
+startup_command = "source ~/.zshrc"
