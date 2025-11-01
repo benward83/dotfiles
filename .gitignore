@@ -48,3 +48,6 @@ node_modules/
 # Personal notes (if you want to exclude them)
 NOTES.md
 TODO.md
+
+# Personal Claude context
+.claude/CLAUDE.md
