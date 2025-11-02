@@ -1,4 +1,4 @@
-{
+{ "workbench.colorTheme": "Matte Black",    
     "terminal.external.osxExec": "iTerm.app",
     "terminal.explorerKind": "external",
     "editor.rulers": [
