@@ -101,6 +101,9 @@ ZSH_HIGHLIGHT_PATTERNS+=("pnpm" fg=blue,bold)
 source $ZSH/oh-my-zsh.sh
 
 # User configuration
+# Omarchy/Hyprland environment variables
+export TERMINAL="warp-terminal"
+export BROWSER="firefox"
 
 # export MANPATH="/usr/local/man:$MANPATH"
 
@@ -110,9 +113,14 @@ source $ZSH/oh-my-zsh.sh
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
+  export VISUAL='vim'
 else
-  export EDITOR='code -w'
+  export EDITOR='code'
+  export VISUAL='code'
 fi
+
+# Git commit editor (needs wait flag)
+export GIT_EDITOR='code -w'
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
