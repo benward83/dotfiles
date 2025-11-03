@@ -1,0 +1,1 @@
+/home/benward/.config/omarchy/current/theme/neovim.lua
