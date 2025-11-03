@@ -10,21 +10,26 @@
 .env.local
 
 # SSH keys and configs with passwords
+.ssh/
+.gnupg/
 .ssh/id_*
 .ssh/*.pem
 
 # Cloud provider credentials
-.aws/credentials
+.aws/
 .boto
 .config/gcloud/
+.kube/config
 
 # Docker/Kubernetes credentials
 .docker/config.json
-.kube/config
 
 # Cache and temporary files
+.cache/
 *.cache
 *.log
+*.lock
+*.sock
 .zcompdump*
 .z
 .zsh_history
@@ -40,10 +45,40 @@ Thumbs.db
 *.swo
 *~
 
-# Package manager caches
+# Package manager caches and application data
 .npm/
 .nvm/
+.rvm/
+.rbenv/
+.pyenv/
 node_modules/
+.local/share/
+.local/state/
+
+# Oh My Zsh (freshly installed, not tracked)
+.oh-my-zsh/
+
+# Neovim plugin directories and cache
+.config/nvim/plugin/
+.config/nvim/.lazy/
+.config/nvim/lazy-lock.json
+
+# VS Code application data
+.config/Code/User/workspaceStorage/
+.config/Code/User/globalStorage/
+.config/Code/Backups/
+.config/Code/logs/
+.config/Code/CachedData/
+.config/Code/CachedExtensions/
+.config/Code/CachedExtensionVSIXs/
+vscode/.cache/
+
+# Hyprland runtime
+.config/hypr/*.log
+
+# Omarchy dynamic state
+.config/omarchy/current/
+.local/share/omarchy/
 
 # Personal notes (if you want to exclude them)
 NOTES.md
