@@ -1,14 +1,14 @@
 # Ben's Dotfiles
 
-Personal configuration files for Linux development environments. Designed to maintain consistency across machines using symlinks.
+Personal configuration files for **Linux (Arch/Omarchy)** and **macOS** development environments. Designed to maintain consistency across machines using symlinks with platform-specific setup scripts.
 
 ## Quick Start
 
 ```bash
 # Clone this repo
-git clone https://github.com/YOUR_USERNAME/dotfiles.git ~/.dotfiles
+git clone https://github.com/benward83/dotfiles.git ~/.dotfiles
 
-# Run installation script
+# Run installation script (auto-detects your platform)
 cd ~/.dotfiles
 ./install.sh
 
@@ -16,10 +16,18 @@ cd ~/.dotfiles
 # Restart your shell
 ```
 
+## Platform Support
+
+This dotfiles repository supports:
+- **Linux** (Arch Linux with Hyprland/Omarchy)
+- **macOS**
+
+Platform-specific configs are automatically handled by the setup scripts.
+
 ## What's Included
 
 ### Shell Configuration
-- `.zshrc` - ZSH configuration with oh-my-zsh, powerlevel10k, custom aliases
+- `.zshrc` - ZSH configuration with oh-my-zsh, custom aliases and functions
 - `.bashrc`, `.bash_profile`, `.profile` - Bash configurations
 - `.local/bin/env` - PATH setup script
 
@@ -30,29 +38,80 @@ cd ~/.dotfiles
 - `.gitconfig-personal` - Personal email override (`benward83@gmail.com`)
 - `.config/git/ignore` - Global gitignore
 
-### Editor Configuration
-- `.config/Code/User/settings.json` - VS Code settings
-- `.config/Code/User/keybindings.json` - VS Code keybindings
-- `.config/Code/User/snippets/` - Code snippets directory
+### Terminal Emulators
+- `.config/alacritty/alacritty.toml` - Alacritty configuration
+- `.config/kitty/kitty.conf` - Kitty terminal configuration
+- `.config/warp-terminal/` - Warp terminal configs (Linux-specific)
+- `.config/starship.toml` - Starship prompt configuration
 
-### Terminal Configuration
-- `.config/warp-terminal/keybindings.yaml` - Warp terminal keybindings
-- `.config/warp-terminal/shell.toml` - Warp shell configuration
+### Text Editors
+- `.config/nvim/` - Neovim configuration (LazyVim-based)
+  - Custom plugins and themes
+  - Omarchy theme hot-reload support (Linux)
+  - Cross-platform compatible
+- `vscode/` - VS Code settings (to be added)
+  - `settings.json` - Editor settings
+  - `keybindings.json` - Custom keybindings
+  - `extensions.txt` - Extension list
 
 ### Development Tools
-- `.claude/CLAUDE.md` - Claude AI project context
+- `.config/lazygit/config.yml` - Lazygit TUI configuration
+- `direnv` - Auto-loaded via `.zshrc`
+
+### Linux-Specific (Omarchy/Hyprland)
+- `.config/hypr/` - Hyprland window manager configuration
+  - `hyprland.conf` - Main config
+  - `bindings.conf` - Keybindings
+  - `monitors.conf` - Display setup
+  - `looknfeel.conf` - Appearance
+  - `envs.conf` - Environment variables
+- `linux/omarchy/` - Omarchy theme system
+  - `config.sh` - Theme preferences
+  - `themes/` - Custom themes directory
 
 ### Scripts
-- `bin/apply_win_rules_startup.sh` - Window rules startup script
-- `scripts/reset-scarlett.sh` - Scarlett audio interface reset script
+- `scripts/setup-linux.sh` - Linux/Omarchy setup script
+- `scripts/setup-macos.sh` - macOS setup script
+- `scripts/omarchy-setup.sh` - Omarchy theme installer
+- `scripts/reset-scarlett.sh` - Audio interface reset script
+
+## Installation Scripts
+
+### Main Installer
+
+```bash
+./install.sh
+```
+
+Auto-detects your platform (Linux or macOS) and runs the appropriate setup script. On Linux, offers to set up Omarchy themes interactively.
+
+### Platform-Specific Setup
+
+**Linux:**
+```bash
+./scripts/setup-linux.sh
+```
+
+**macOS:**
+```bash
+./scripts/setup-macos.sh
+```
+
+**Omarchy Themes (Linux only):**
+```bash
+./scripts/omarchy-setup.sh
+```
 
 ## Dependencies
 
 These need to be installed manually on a new system:
 
-### Essential
-- **ZSH** - `sudo dnf install zsh` (Fedora) or `sudo apt install zsh` (Ubuntu)
-- **oh-my-zsh** - `sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"`
+### Essential (All Platforms)
+- **ZSH** - `sudo pacman -S zsh` (Arch) or `brew install zsh` (macOS)
+- **oh-my-zsh**:
+  ```bash
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+  ```
 - **Git** - Usually pre-installed
 
 ### ZSH Plugins
@@ -62,21 +121,32 @@ git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-m
 
 # zsh-syntax-highlighting
 git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
-
-# powerlevel10k theme
-git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k
 ```
 
 ### Development Tools
-- **NVM** (Node Version Manager) - `curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash`
-- **direnv** - `sudo dnf install direnv` or `sudo apt install direnv`
-- **emb** - Enspirit build tool (if needed for work projects)
-- **VS Code** - Download from https://code.visualstudio.com/
+- **NVM** (Node Version Manager):
+  ```bash
+  curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+  ```
+- **direnv** - `sudo pacman -S direnv` (Arch) or `brew install direnv` (macOS)
+- **Starship** - `sudo pacman -S starship` (Arch) or `brew install starship` (macOS)
+- **Neovim** - `sudo pacman -S neovim` (Arch) or `brew install neovim` (macOS)
+- **Lazygit** - `sudo pacman -S lazygit` (Arch) or `brew install lazygit` (macOS)
 
-### Optional
-- **Warp Terminal** - Download from https://www.warp.dev/
+### Terminal Emulators
+- **Alacritty** - `sudo pacman -S alacritty` (Arch) or `brew install --cask alacritty` (macOS)
+- **Kitty** - `sudo pacman -S kitty` (Arch) or `brew install --cask kitty` (macOS)
+- **Warp** (optional) - Download from https://www.warp.dev/
 
-## Git Email Configuration Explained
+### Linux-Specific (Omarchy/Hyprland)
+- **Hyprland** - `sudo pacman -S hyprland`
+- **Omarchy** - Follow installation from https://github.com/warbacon/omarchy
+- **CaskaydiaMono Nerd Font** - For terminal icons
+
+### macOS-Specific
+- **Homebrew** - `/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"`
+
+## Git Email Configuration
 
 The `.gitconfig` uses conditional includes to automatically use the correct email:
 
@@ -85,41 +155,45 @@ The `.gitconfig` uses conditional includes to automatically use the correct emai
 
 This is automatic - no manual switching needed! Just put personal projects in `~/personal/` directory.
 
-## Installation Details
+## Omarchy Theme System (Linux)
 
-The `install.sh` script:
-1. Backs up existing configs to `~/.dotfiles_backup_TIMESTAMP/`
-2. Creates symlinks from `$HOME` to files in `~/.dotfiles/`
-3. Preserves directory structure for `.config/` files
-4. Is idempotent (safe to run multiple times)
+Custom themes go in `linux/omarchy/themes/`. The setup script will symlink them to `~/.config/omarchy/themes/`.
 
-## Manual Installation (Without Script)
+To change your preferred theme:
+1. Edit `linux/omarchy/config.sh`
+2. Set `OMARCHY_THEME="your-theme-name"`
+3. Run `./scripts/omarchy-setup.sh`
 
-If you prefer to set up manually:
-
+Or use Omarchy directly:
 ```bash
-cd ~/.dotfiles
-
-# Shell configs
-ln -s ~/.dotfiles/.zshrc ~/.zshrc
-ln -s ~/.dotfiles/.bashrc ~/.bashrc
-ln -s ~/.dotfiles/.bash_profile ~/.bash_profile
-ln -s ~/.dotfiles/.profile ~/.profile
-
-# Git configs
-ln -s ~/.dotfiles/.gitconfig ~/.gitconfig
-ln -s ~/.dotfiles/.gitconfig-personal ~/.gitconfig-personal
-mkdir -p ~/.config/git
-ln -s ~/.dotfiles/.config/git/ignore ~/.config/git/ignore
-
-# VS Code configs
-mkdir -p ~/.config/Code/User
-ln -s ~/.dotfiles/.config/Code/User/settings.json ~/.config/Code/User/settings.json
-ln -s ~/.dotfiles/.config/Code/User/keybindings.json ~/.config/Code/User/keybindings.json
-ln -s ~/.dotfiles/.config/Code/User/snippets ~/.config/Code/User/snippets
-
-# Continue for other files...
+omarchy theme list
+omarchy theme set <theme-name>
 ```
+
+## Adding VS Code Configuration (Future)
+
+When on your system with VS Code configured:
+
+1. Export settings:
+   ```bash
+   cp ~/.config/Code/User/settings.json ~/.dotfiles/vscode/settings.json
+   cp ~/.config/Code/User/keybindings.json ~/.dotfiles/vscode/keybindings.json
+   ```
+
+2. Export extensions:
+   ```bash
+   code --list-extensions > ~/.dotfiles/vscode/extensions.txt
+   ```
+
+3. Commit and push:
+   ```bash
+   cd ~/.dotfiles
+   git add vscode/
+   git commit -m "[VSCode] Add settings and extensions"
+   git push
+   ```
+
+The setup scripts will automatically handle platform-specific VS Code paths.
 
 ## Updating Dotfiles
 
@@ -128,56 +202,120 @@ Since configs are symlinked, any edits you make to files like `~/.zshrc` automat
 ```bash
 cd ~/.dotfiles
 git status  # See what changed
-git add -A
-git commit -m "Update shell configuration"
+git add <changed-files>
+git commit -m "[Component] Description of changes"
 git push
 ```
+
+**Important:** Follow the commit message format: `[Component] Description`
+
+Examples:
+- `[Zsh] Add docker compose alias`
+- `[Hypr] Update keybindings for screenshot`
+- `[Nvim] Add new LSP configuration`
+
+## Cross-Platform Notes
+
+### Configs That Work Everywhere
+- Shell configs (`.zshrc`, etc.)
+- Git configuration
+- Neovim
+- Starship prompt
+- Lazygit
+- Terminal emulators (alacritty, kitty)
+
+### Linux-Only
+- Hyprland configuration
+- Omarchy themes
+- Warp terminal (partially)
+
+### Platform-Specific Handling
+- Terminal configs reference Omarchy themes but won't break on macOS (files just won't exist)
+- VS Code paths differ: Linux uses `~/.config/Code/User/`, macOS uses `~/Library/Application Support/Code/User/`
+- Setup scripts handle these differences automatically
 
 ## Troubleshooting
 
 **Q: Symlink already exists error?**
-A: Remove the old symlink first: `rm ~/.zshrc` then re-run install script
+A: The scripts handle this automatically. If issues persist, manually remove: `rm ~/.zshrc` then re-run.
 
 **Q: Permission denied on scripts?**
-A: Make them executable: `chmod +x ~/bin/*.sh ~/scripts/*.sh`
+A: Ensure scripts are executable: `chmod +x ~/.dotfiles/scripts/*.sh`
 
-**Q: ZSH theme not loading?**
-A: Install powerlevel10k and oh-my-zsh plugins (see Dependencies)
+**Q: ZSH plugins not loading?**
+A: Install oh-my-zsh plugins (see Dependencies section)
 
-**Q: Git still using wrong email?**
-A: Check which config is active: `git config user.email`
-For dotfiles repo specifically: `cd ~/.dotfiles && git config user.email`
+**Q: Omarchy themes not applying?**
+A: Ensure Omarchy is installed. Run `omarchy theme list` to see available themes.
 
-## Structure
+**Q: Terminal theme looks broken on macOS?**
+A: Normal - Omarchy theme imports are Linux-only. You can comment out the import lines or add macOS-specific themes.
+
+**Q: Neovim plugins not installed?**
+A: Open nvim and run `:Lazy sync` to install all plugins.
+
+**Q: Hyprland config appearing on macOS?**
+A: It's harmless - macOS ignores Hyprland configs. The setup script only symlinks what's needed.
+
+## Repository Structure
 
 ```
 .dotfiles/
-├── README.md
-├── install.sh
-├── .gitignore
-├── .zshrc
-├── .bashrc
+├── README.md                        # This file
+├── install.sh                       # Main installer (platform detection)
+├── .gitignore                       # Comprehensive gitignore
+│
+├── Shell configs
+├── .zshrc                           # ZSH configuration
+├── .bashrc                          # Bash configuration
 ├── .bash_profile
 ├── .profile
-├── .gitconfig
-├── .gitconfig-personal
-├── .config/
-│   ├── Code/User/
-│   │   ├── settings.json
-│   │   ├── keybindings.json
-│   │   └── snippets/
-│   ├── git/ignore
-│   └── warp-terminal/
-│       ├── keybindings.yaml
-│       └── shell.toml
-├── .claude/
-│   └── CLAUDE.md
-├── .local/bin/
-│   └── env
-├── bin/
-│   └── apply_win_rules_startup.sh
-└── scripts/
-    └── reset-scarlett.sh
+│
+├── Git configs
+├── .gitconfig                       # Main git config
+├── .gitconfig-personal              # Personal email override
+│
+├── .config/                         # Cross-platform configs
+│   ├── hypr/                        # Hyprland (Linux only)
+│   │   ├── hyprland.conf
+│   │   ├── bindings.conf
+│   │   ├── monitors.conf
+│   │   └── ...
+│   ├── alacritty/
+│   │   └── alacritty.toml
+│   ├── kitty/
+│   │   └── kitty.conf
+│   ├── nvim/                        # Neovim (cross-platform)
+│   │   ├── init.lua
+│   │   └── lua/
+│   ├── warp-terminal/               # Warp terminal
+│   ├── starship.toml                # Starship prompt
+│   ├── lazygit/
+│   │   └── config.yml
+│   ├── git/
+│   │   └── ignore
+│   └── Code/                        # VS Code (already tracked)
+│
+├── linux/                           # Linux-specific
+│   └── omarchy/
+│       ├── config.sh                # Theme preferences
+│       └── themes/                  # Custom themes
+│
+├── macos/                           # macOS-specific (future)
+│
+├── vscode/                          # VS Code (to be added)
+│   ├── settings.json
+│   ├── keybindings.json
+│   └── extensions.txt
+│
+├── scripts/
+│   ├── setup-linux.sh               # Linux setup
+│   ├── setup-macos.sh               # macOS setup
+│   ├── omarchy-setup.sh             # Omarchy theme installer
+│   └── reset-scarlett.sh            # Audio script
+│
+└── .local/bin/
+    └── env                          # PATH setup
 ```
 
 ## License
