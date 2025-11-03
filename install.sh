@@ -1,94 +1,65 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Dotfiles installation script
-# Creates symlinks from home directory to dotfiles repo
+# Platform-agnostic wrapper for setup scripts
 
-set -e
+set -euo pipefail
 
 # Colors for output
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
 RED='\033[0;31m'
 NC='\033[0m' # No Color
 
 # Get the directory where this script is located
 DOTFILES_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-BACKUP_DIR="$HOME/.dotfiles_backup_$(date +%Y%m%d_%H%M%S)"
 
-echo -e "${GREEN}Installing dotfiles from ${DOTFILES_DIR}${NC}"
-
-# Function to create backup
-backup_file() {
-    local file=$1
-    if [ -e "$file" ] && [ ! -L "$file" ]; then
-        mkdir -p "$BACKUP_DIR"
-        echo -e "${YELLOW}Backing up existing file: $file${NC}"
-        cp -r "$file" "$BACKUP_DIR/"
-    fi
-}
-
-# Function to create symlink
-create_symlink() {
-    local source=$1
-    local target=$2
-
-    # Create parent directory if it doesn't exist
-    mkdir -p "$(dirname "$target")"
-
-    # Backup existing file/directory if it exists and is not a symlink
-    if [ -e "$target" ] && [ ! -L "$target" ]; then
-        backup_file "$target"
-        rm -rf "$target"
-    fi
-
-    # Remove existing symlink if it exists
-    if [ -L "$target" ]; then
-        rm "$target"
-    fi
-
-    # Create symlink
-    ln -s "$source" "$target"
-    echo -e "${GREEN}✓${NC} Linked: $target -> $source"
-}
-
-echo ""
-echo "Creating symlinks..."
+echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${GREEN}    Dotfiles Installation${NC}"
+echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
 echo ""
 
-# Shell configuration files
-create_symlink "$DOTFILES_DIR/.zshrc" "$HOME/.zshrc"
-create_symlink "$DOTFILES_DIR/.bashrc" "$HOME/.bashrc"
-create_symlink "$DOTFILES_DIR/.bash_profile" "$HOME/.bash_profile"
-create_symlink "$DOTFILES_DIR/.profile" "$HOME/.profile"
+# Detect platform
+case "$(uname -s)" in
+    Linux*)
+        PLATFORM="Linux"
+        SETUP_SCRIPT="$DOTFILES_DIR/scripts/setup-linux.sh"
+        ;;
+    Darwin*)
+        PLATFORM="macOS"
+        SETUP_SCRIPT="$DOTFILES_DIR/scripts/setup-macos.sh"
+        ;;
+    *)
+        echo -e "${RED}✗ Unsupported platform: $(uname -s)${NC}"
+        echo "This script supports Linux and macOS only."
+        exit 1
+        ;;
+esac
 
-# Git configuration
-create_symlink "$DOTFILES_DIR/.gitconfig" "$HOME/.gitconfig"
-create_symlink "$DOTFILES_DIR/.gitconfig-personal" "$HOME/.gitconfig-personal"
-create_symlink "$DOTFILES_DIR/.config/git/ignore" "$HOME/.config/git/ignore"
-
-# VS Code configuration
-create_symlink "$DOTFILES_DIR/.config/Code/User/settings.json" "$HOME/.config/Code/User/settings.json"
-create_symlink "$DOTFILES_DIR/.config/Code/User/keybindings.json" "$HOME/.config/Code/User/keybindings.json"
-create_symlink "$DOTFILES_DIR/.config/Code/User/snippets" "$HOME/.config/Code/User/snippets"
-
-# Warp terminal
-create_symlink "$DOTFILES_DIR/.config/warp-terminal/keybindings.yaml" "$HOME/.config/warp-terminal/keybindings.yaml"
-create_symlink "$DOTFILES_DIR/.config/warp-terminal/shell.toml" "$HOME/.config/warp-terminal/shell.toml"
-
-# Claude configuration
-create_symlink "$DOTFILES_DIR/.claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
-
-# Scripts and binaries
-create_symlink "$DOTFILES_DIR/bin/apply_win_rules_startup.sh" "$HOME/bin/apply_win_rules_startup.sh"
-create_symlink "$DOTFILES_DIR/scripts/reset-scarlett.sh" "$HOME/scripts/reset-scarlett.sh"
-create_symlink "$DOTFILES_DIR/.local/bin/env" "$HOME/.local/bin/env"
-
+echo -e "${BLUE}Platform detected: $PLATFORM${NC}"
 echo ""
-if [ -d "$BACKUP_DIR" ]; then
-    echo -e "${YELLOW}Original files backed up to: $BACKUP_DIR${NC}"
+
+# Check if setup script exists
+if [ ! -f "$SETUP_SCRIPT" ]; then
+    echo -e "${RED}✗ Setup script not found: $SETUP_SCRIPT${NC}"
+    exit 1
 fi
-echo -e "${GREEN}Dotfiles installation complete!${NC}"
+
+# Run platform-specific setup
+bash "$SETUP_SCRIPT"
+
+# Run Omarchy setup for Linux if available
+if [ "$PLATFORM" = "Linux" ] && [ -f "$DOTFILES_DIR/scripts/omarchy-setup.sh" ]; then
+    echo ""
+    read -p "Do you want to set up Omarchy themes? (y/N) " -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Yy]$ ]]; then
+        bash "$DOTFILES_DIR/scripts/omarchy-setup.sh"
+    fi
+fi
+
 echo ""
-echo "Next steps:"
-echo "1. Install dependencies (see README.md)"
-echo "2. Restart your shell or run: source ~/.zshrc"
+echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
+echo -e "${GREEN}✓ Installation complete!${NC}"
+echo -e "${GREEN}━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━${NC}"
