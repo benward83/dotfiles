@@ -226,11 +226,13 @@ Omarchy themes support hot-reloading. Neovim config includes Omarchy theme watch
 ## VS Code Configuration
 
 VS Code settings are tracked in `vscode/` and symlinked to platform-specific locations:
-- **Linux**: `~/.config/Code/User/`
+- **Linux**: `~/.config/Code/User/` and `~/.config/Code - OSS/User/` (for open source build)
 - **macOS**: `~/Library/Application Support/Code/User/`
 
+**Note**: On Arch Linux, the `code` package is actually Code - OSS (open source build). The setup script creates symlinks for both standard VS Code and Code - OSS to ensure compatibility.
+
 The setup scripts automatically:
-1. Symlink settings and keybindings
+1. Symlink settings and keybindings to both locations
 2. Install all extensions from `extensions.txt`
 
 ### Updating VS Code Config

@@ -170,60 +170,52 @@ omarchy theme list
 omarchy theme set <theme-name>
 ```
 
-## Next Steps: Adding VS Code Configuration
+## VS Code Configuration
 
-**Status:** VS Code settings are NOT yet added to this dotfiles repo. Follow these steps when on your old system with VS Code configured.
+**Status:** ✅ Fully configured and tracked in this dotfiles repo.
 
-### Instructions for Adding VS Code to Dotfiles
+### What's Included
 
-When you're on your system that has VS Code fully configured with all your settings and extensions:
-
-1. **Pull the latest dotfiles:**
-   ```bash
-   cd ~/.dotfiles
-   git pull origin main
-   ```
-
-2. **Export VS Code settings:**
-   ```bash
-   # Copy settings and keybindings
-   cp ~/.config/Code/User/settings.json ~/.dotfiles/vscode/settings.json
-   cp ~/.config/Code/User/keybindings.json ~/.dotfiles/vscode/keybindings.json
-
-   # If on macOS, the path is different:
-   # cp ~/Library/Application\ Support/Code/User/settings.json ~/.dotfiles/vscode/settings.json
-   # cp ~/Library/Application\ Support/Code/User/keybindings.json ~/.dotfiles/vscode/keybindings.json
-   ```
-
-3. **Export extension list:**
-   ```bash
-   code --list-extensions > ~/.dotfiles/vscode/extensions.txt
-   ```
-
-4. **Commit and push:**
-   ```bash
-   cd ~/.dotfiles
-   git add vscode/
-   git commit -m "[VSCode] Add settings, keybindings, and extension list"
-   git push origin main
-   ```
-
-5. **Done!** The setup scripts (`setup-linux.sh` and `setup-macos.sh`) are already configured to:
-   - Symlink VS Code settings to the correct platform-specific location
-   - Automatically install all extensions from `extensions.txt`
-
-### What Gets Added
-
-After completing these steps, your dotfiles will include:
-- `vscode/settings.json` - All your VS Code settings
+Your VS Code configuration is stored in `vscode/` and includes:
+- `vscode/settings.json` - All your VS Code settings (ESLint, formatters, themes, etc.)
 - `vscode/keybindings.json` - Custom keyboard shortcuts
-- `vscode/extensions.txt` - List of installed extensions
+- `vscode/extensions.txt` - List of 37 installed extensions
 
-### Platform Compatibility
+### How It Works
 
-The setup scripts handle platform differences automatically:
-- **Linux:** Settings go to `~/.config/Code/User/`
-- **macOS:** Settings go to `~/Library/Application Support/Code/User/`
+The setup scripts (`setup-linux.sh` and `setup-macos.sh`) automatically:
+1. Symlink settings and keybindings to the correct platform-specific location
+2. Install all extensions from `extensions.txt`
+
+### Platform-Specific Paths
+
+Symlinks are created based on your platform:
+- **Linux:** `~/.config/Code/User/` and `~/.config/Code - OSS/User/`
+- **macOS:** `~/Library/Application Support/Code/User/`
+
+### Updating VS Code Settings
+
+Since settings are symlinked, any changes in VS Code automatically update the dotfiles repo:
+
+```bash
+# After making changes in VS Code, commit them:
+cd ~/.dotfiles
+git add vscode/
+git commit -m "[VSCode] Update settings"
+git push
+```
+
+### Exporting Extensions
+
+To update the extension list after installing new extensions:
+
+```bash
+code --list-extensions > ~/.dotfiles/vscode/extensions.txt
+cd ~/.dotfiles
+git add vscode/extensions.txt
+git commit -m "[VSCode] Update extension list"
+git push
+```
 
 ## Updating Dotfiles
 

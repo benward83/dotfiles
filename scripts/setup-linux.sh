@@ -56,13 +56,21 @@ if [ -d "$DOTFILES/.config/warp-terminal" ]; then
     ln -sf "$DOTFILES/.config/warp-terminal/shell.toml" "$HOME/.config/warp-terminal/shell.toml"
 fi
 
-# VS Code (when added later)
+# VS Code
 if [ -f "$DOTFILES/vscode/settings.json" ]; then
     echo "💙 Linking VS Code configuration..."
+
+    # Link for standard VS Code
     VSCODE_USER_DIR="$HOME/.config/Code/User"
     mkdir -p "$VSCODE_USER_DIR"
     ln -sf "$DOTFILES/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
     ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
+
+    # Link for Code - OSS (open source build)
+    VSCODE_OSS_USER_DIR="$HOME/.config/Code - OSS/User"
+    mkdir -p "$VSCODE_OSS_USER_DIR"
+    ln -sf "$DOTFILES/vscode/settings.json" "$VSCODE_OSS_USER_DIR/settings.json"
+    ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_OSS_USER_DIR/keybindings.json"
 
     # Install extensions if extensions.txt exists
     if [ -f "$DOTFILES/vscode/extensions.txt" ] && command -v code &> /dev/null; then
