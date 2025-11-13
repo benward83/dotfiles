@@ -56,6 +56,24 @@ if [ -d "$DOTFILES/.config/warp-terminal" ]; then
     ln -sf "$DOTFILES/.config/warp-terminal/shell.toml" "$HOME/.config/warp-terminal/shell.toml"
 fi
 
+# Electron/Chromium flags for Wayland/GPU compatibility
+echo "🎨 Linking Electron/Chromium flags..."
+ln -sf "$DOTFILES/.config/code-flags.conf" "$HOME/.config/code-flags.conf"
+ln -sf "$DOTFILES/.config/brave-flags.conf" "$HOME/.config/brave-flags.conf"
+ln -sf "$DOTFILES/.config/chromium-flags.conf" "$HOME/.config/chromium-flags.conf"
+
+# Omarchy custom themes
+if [ -d "$DOTFILES/linux/omarchy/themes" ]; then
+    echo "🎨 Copying custom Omarchy themes..."
+    mkdir -p "$HOME/.config/omarchy/themes"
+    for theme_dir in "$DOTFILES/linux/omarchy/themes"/*; do
+        if [ -d "$theme_dir" ] && [ "$(basename "$theme_dir")" != ".gitkeep" ]; then
+            theme_name=$(basename "$theme_dir")
+            cp -r "$theme_dir" "$HOME/.config/omarchy/themes/$theme_name"
+        fi
+    done
+fi
+
 # VS Code
 if [ -f "$DOTFILES/vscode/settings.json" ]; then
     echo "💙 Linking VS Code configuration..."
