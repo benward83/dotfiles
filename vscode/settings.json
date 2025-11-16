@@ -1,4 +1,4 @@
-{ "workbench.colorTheme": "Matte Black",
+{ "workbench.colorTheme": "Catppuccin Macchiato",
     "terminal.external.osxExec": "iTerm.app",
     "terminal.explorerKind": "external",
     "editor.rulers": [
@@ -17,7 +17,7 @@
     "explorer.confirmDelete": false,
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "always"
+        "source.fixAll.eslint": "explicit"
     },
     "[dart]": {
         "editor.formatOnSave": true,
@@ -66,7 +66,8 @@
         "/tmp/postman-http-request-pre-request.instructions.md": true
     },
     "eslint.debug": true,
-    "workbench.settings.applyToAllProfiles": [],
+    "workbench.settings.applyToAllProfiles": [
+    ],
     "settingsSync.ignoredExtensions": [],
     "docker.extension.enableComposeLanguageServer": false,
     "[dockercompose]": {
