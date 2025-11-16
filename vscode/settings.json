@@ -24,7 +24,7 @@
     "explorer.confirmDelete": false,
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": true
+        "source.fixAll.eslint": "explicit"
     },
     "[dart]": {
         "editor.formatOnSave": true,
