@@ -1,5 +1,6 @@
 ---
-"pane_group:resize_right": none
-"pane_group:resize_left": none
-"pane_group:resize_up": none
 "pane_group:add_up": ctrl-shift-H
+"pane_group:resize_up": ctrl-alt-shift-up
+"pane_group:resize_left": ctrl-alt-shift-left
+"pane_group:resize_right": ctrl-alt-shift-right
+"pane_group:resize_down": ctrl-alt-shift-down
