@@ -6,6 +6,13 @@
         120
     ],
     "eslint.useFlatConfig": false,
+    "eslint.validate": [
+        "javascript",
+        "javascriptreact",
+        "typescript",
+        "typescriptreact",
+        "vue"
+    ],
     "editor.autoIndent": "full",
     "editor.trimAutoWhitespace": true,
     "editor.formatOnSave": false,
@@ -17,7 +24,7 @@
     "explorer.confirmDelete": false,
     "diffEditor.ignoreTrimWhitespace": false,
     "editor.codeActionsOnSave": {
-        "source.fixAll.eslint": "explicit"
+        "source.fixAll.eslint": true
     },
     "[dart]": {
         "editor.formatOnSave": true,
