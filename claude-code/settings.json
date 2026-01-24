@@ -2,7 +2,6 @@
   "hooks": {
     "Notification": [
       {
-        "matcher": "permission_prompt",
         "hooks": [
           {
             "type": "command",
