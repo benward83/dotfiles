@@ -101,6 +101,16 @@ if [ -f "$DOTFILES/vscode/settings.json" ]; then
     fi
 fi
 
+# Claude Code
+echo "🤖 Linking Claude Code configuration..."
+mkdir -p "$HOME/.claude"
+ln -sf "$DOTFILES/claude-code/settings.json" "$HOME/.claude/settings.json"
+ln -sf "$DOTFILES/claude-code/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+rm -rf "$HOME/.claude/rules"
+ln -sfn "$DOTFILES/claude-code/rules" "$HOME/.claude/rules"
+rm -rf "$HOME/.claude/skills"
+ln -sfn "$DOTFILES/claude-code/skills" "$HOME/.claude/skills"
+
 echo "✅ Linux dotfiles setup complete!"
 echo ""
 echo "Next steps:"
