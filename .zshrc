@@ -234,7 +234,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   command -v rbenv &>/dev/null && eval "$(rbenv init - zsh)"
 else
   # Linux
-  export TERMINAL="warp-terminal"
+  export TERMINAL="ghostty"
   export BROWSER="firefox"
   alias open='xdg-open'
   command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
