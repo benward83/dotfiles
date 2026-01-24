@@ -1,4 +1,15 @@
 {
+  "permissions": {
+    "allow": [
+      "Bash(git -C */.dotfiles add *)",
+      "Bash(git -C */.dotfiles commit *)",
+      "Bash(git -C */.dotfiles push)",
+      "Bash(git -C */.dotfiles push *)",
+      "Bash(git -C */.dotfiles status)",
+      "Bash(git -C */.dotfiles diff *)",
+      "Bash(git -C */.dotfiles log *)"
+    ]
+  },
   "hooks": {
     "Notification": [
       {
