@@ -1,5 +1,13 @@
 {
   "permissions": {
+    "deny": [
+      "Read(~/.ssh/**)",
+      "Read(~/.kube/**)",
+      "Grep(~/.ssh/**)",
+      "Grep(~/.kube/**)",
+      "Glob(~/.ssh/**)",
+      "Glob(~/.kube/**)"
+    ],
     "allow": [
       "Bash(git -C */.dotfiles add *)",
       "Bash(git -C */.dotfiles commit *)",
@@ -7,7 +15,13 @@
       "Bash(git -C */.dotfiles push *)",
       "Bash(git -C */.dotfiles status)",
       "Bash(git -C */.dotfiles diff *)",
-      "Bash(git -C */.dotfiles log *)"
+      "Bash(git -C */.dotfiles log *)",
+      "Read(~/Documents/Obsidian Vault/**)",
+      "Edit(~/Documents/Obsidian Vault/**)",
+      "Write(~/Documents/Obsidian Vault/**)",
+      "Read(~/Work/**)",
+      "Glob(~/Work/**)",
+      "Grep(~/Work/**)"
     ]
   },
   "hooks": {
@@ -21,5 +35,6 @@
         ]
       }
     ]
-  }
+  },
+  "effortLevel": "high"
 }
