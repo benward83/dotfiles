@@ -58,7 +58,67 @@ alias gpf="git push --force"
 alias gpfl="git push --force-with-lease"
 alias ga="git add"
 alias gaa="git add ."
-alias gcm="git commit -m"
+unalias gcm 2>/dev/null
+function gcm() {
+  local msg="$*"
+  if [ -z "$msg" ]; then
+    echo "Usage: gcm <message>"
+    return 1
+  fi
+
+  local staged=$(git diff --cached --name-only 2>/dev/null)
+  if [ -z "$staged" ]; then
+    echo "Nothing staged. Stage files first with ga."
+    return 1
+  fi
+
+  local module=""
+  local -a detected=()
+
+  if echo "$staged" | grep -q "views/smc/\|stores/smc\|models/smc\|utils/smc\|/smc[A-Z]"; then
+    detected+=("SMC")
+  fi
+  if echo "$staged" | grep -q "^dbagent/"; then
+    detected+=("dbagent")
+  fi
+  if echo "$staged" | grep -q "^webspicy/"; then
+    detected+=("Webspicy")
+  fi
+  if echo "$staged" | grep -q "^helm/"; then
+    detected+=("Helm")
+  fi
+  if echo "$staged" | grep -q "\.kiln\.yml"; then
+    detected+=("CI")
+  fi
+  if echo "$staged" | grep -q "^frontend/packages/"; then
+    detected+=("Pkg")
+  fi
+  if echo "$staged" | grep -q "services/mobile/"; then
+    detected+=("Mobile")
+  fi
+  if echo "$staged" | grep -q "^e2e/"; then
+    detected+=("E2E")
+  fi
+  if echo "$staged" | grep -q "^kong/\|^emb/"; then
+    detected+=("Emb")
+  fi
+  if echo "$staged" | grep -q "^\.kiln\|^kiln/"; then
+    detected+=("Kiln")
+  fi
+
+  if [ ${#detected[@]} -eq 1 ]; then
+    module="${detected[1]}"
+  elif [ ${#detected[@]} -gt 1 ]; then
+    module=$(printf '%s\n' "*" "${detected[@]}" | fzf --prompt="Multiple modules detected. Pick: " --height=15 --reverse | head -1)
+  else
+    local all_modules=("SMC" "Pkg" "Helm" "CI" "Webspicy" "dbagent" "Emb" "E2E" "Mobile" "Kiln")
+    module=$(printf '%s\n' "${all_modules[@]}" | fzf --prompt="Module: " --height=15 --reverse)
+  fi
+
+  [ -z "$module" ] && return 1
+
+  git commit -m "[$module] $msg"
+}
 alias gss="git status"
 alias gprb="git pull --rebase"
 alias gst="git stash"
@@ -79,6 +139,16 @@ alias gamnoed="git commit --amend --no-edit"
 alias gcmrd="git push -o merge_request.draft"
 alias gcmr="git push -o merge_request.create"
 alias grbsplit="git reset HEAD^"
+alias gb="git branch"
+alias gwtl="git worktree list"
+alias gwta="git worktree add"
+alias gwtr="git worktree remove"
+alias gwtp="git worktree prune"
+
+# Docker Sandbox
+alias dsb="docker sandbox run claude"
+alias dsls="docker sandbox ls"
+alias dsrm="docker sandbox rm"
 
 # ============================================
 # Git functions
@@ -144,12 +214,22 @@ function gdelremotebranch() {
   git push origin --delete "$1"
 }
 
-function gpushforce_staging() {
-  git push --force -u origin staging
+function gstaging() {
+  local branch="${1:-main}"
+  git push origin "$branch":staging --force-with-lease
 }
 
 function gclean() {
+  git fetch --prune
   git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -d
+}
+
+function gbranch() {
+  git branch -D "$1"
+}
+
+function dbsync() {
+  emb db.migrate --verbose && emb db.base && emb db.gen.types
 }
 
 function reload() {
@@ -192,8 +272,41 @@ alias kcurrent='kubectl config current-context'
 alias kn='kubectl config set-context --current --namespace'
 alias kgns='kubectl get namespaces'
 
-# Watch commands
-alias kgpw='kubectl get pods --watch'
+# Watch and scaling
+function kwatch() {
+  kubectl get pods -n "$1" --watch
+}
+
+function kscale() {
+  if [[ -z "$1" || -z "$2" || -z "$3" ]]; then
+    echo "Usage: kscale <service> <replicas> <env>"
+    echo "Example: kscale studio 1 stg-coverseal"
+    return 1
+  fi
+  kubectl scale deployment/"$1" --replicas="$2" -n "$3"
+}
+
+function kmigrate() {
+  if [[ -z "$1" ]]; then
+    echo "Usage: kmigrate <env>"
+    echo "Example: kmigrate stg-coverseal"
+    return 1
+  fi
+  kscale dbagent 1 "$1"
+  echo "Waiting for dbagent pod to be ready..."
+  kubectl wait --for=condition=available deployment/dbagent -n "$1" --timeout=120s
+  kubectl exec -it deployment/dbagent -n "$1" -- bundle exec rake db:migrate
+  kscale dbagent 0 "$1"
+}
+
+function kscale-status() {
+  if [[ -z "$1" || -z "$2" ]]; then
+    echo "Usage: kscale-status <service> <env>"
+    echo "Example: kscale-status studio stg-coverseal"
+    return 1
+  fi
+  kubectl get deployment/"$1" -n "$2" -o jsonpath='{.spec.replicas}' && echo " replica(s)"
+}
 
 # ============================================
 # NVM
@@ -223,6 +336,54 @@ bindkey "^U" backward-kill-line
 
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
+
+# ============================================
+# Secrets (machine-local, not tracked)
+# ============================================
+
+[[ -f ~/.secrets ]] && source ~/.secrets
+
+# ============================================
+# Personal server helpers
+# ============================================
+
+openclaw() {
+  local server="ben@100.79.153.20"
+  local remote="sudo bash -c 'cd /root/openclaw && docker compose"
+  case "$1" in
+    start)   ssh $server "$remote up -d'" ;;
+    stop)    ssh $server "$remote down'" ;;
+    restart) ssh $server "$remote down && cd /root/openclaw && docker compose up -d'" ;;
+    status)  ssh $server "$remote ps'" ;;
+    logs)    ssh $server "$remote logs --tail 100 ${2:---all}'" ;;
+    deploy)
+      scp ~/openclaw-setup/docker-compose.yml $server:/tmp/ && \
+      ssh $server "sudo bash -c 'cp /tmp/docker-compose.yml /root/openclaw/ && cd /root/openclaw && docker compose down && docker compose up -d' && rm /tmp/docker-compose.yml"
+      ;;
+    deploy-pipe)
+      python3 ~/openclaw-setup/deploy-function.py
+      ;;
+    *)
+      echo "Usage: openclaw {start|stop|restart|status|logs [container]|deploy|deploy-pipe}"
+      ;;
+  esac
+}
+
+alice() {
+  local server="ben@100.79.153.20"
+  local remote="sudo bash -c 'cd /opt/alices-website && docker compose -f docker-compose.prod.yml"
+  case "$1" in
+    start)   ssh $server "$remote up -d'" ;;
+    stop)    ssh $server "$remote down'" ;;
+    restart) ssh $server "$remote down && cd /opt/alices-website && docker compose -f docker-compose.prod.yml up -d'" ;;
+    build)   ssh $server "$remote up -d --build'" ;;
+    status)  ssh $server "$remote ps'" ;;
+    logs)    ssh $server "$remote logs --tail 100 ${2:---all}'" ;;
+    *)
+      echo "Usage: alice {start|stop|restart|build|status|logs [container]}"
+      ;;
+  esac
+}
 
 # ============================================
 # Platform-specific configuration

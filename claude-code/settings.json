@@ -21,7 +21,9 @@
       "Grep(~/.ssh/**)",
       "Grep(~/.kube/**)",
       "Glob(~/.ssh/**)",
-      "Glob(~/.kube/**)"
+      "Glob(~/.kube/**)",
+      "Bash(ssh *)",
+      "Bash(*ssh *)"
     ]
   },
   "hooks": {
