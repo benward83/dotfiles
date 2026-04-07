@@ -369,8 +369,21 @@ openclaw() {
     deploy-pipe)
       python3 ~/openclaw-setup/deploy-function.py
       ;;
+    deploy-jobs)
+      scp ~/openclaw-setup/daily-job-search.py $server:/tmp/ && \
+      ssh $server "sudo cp /tmp/daily-job-search.py /root/openclaw/daily-job-search.py && sudo chmod +x /root/openclaw/daily-job-search.py && rm /tmp/daily-job-search.py" && \
+      echo "Job search script deployed."
+      ;;
+    run-jobs)
+      ssh $server "sudo python3 /root/openclaw/daily-job-search.py" && \
+      echo "Job search triggered. Check log:" && \
+      ssh $server "sudo tail -5 /var/log/daily-job-search.log"
+      ;;
+    jobs-log)
+      ssh $server "sudo tail -${2:-20} /var/log/daily-job-search.log"
+      ;;
     *)
-      echo "Usage: openclaw {start|stop|restart|status|logs [container]|deploy|deploy-pipe}"
+      echo "Usage: openclaw {start|stop|restart|status|logs [container]|deploy|deploy-pipe|deploy-jobs|run-jobs|jobs-log}"
       ;;
   esac
 }
