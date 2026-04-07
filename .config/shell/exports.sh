@@ -8,7 +8,7 @@ export MK_USER_PLUGINS_DIR=$HOME/.mkplugins
 export ZSH="$HOME/.oh-my-zsh"
 
 # Terminal and browser (Linux-specific, override in macOS)
-export TERMINAL="warp-terminal"
+export TERMINAL="ghostty"
 export BROWSER="firefox"
 
 # Editor configuration

@@ -84,5 +84,8 @@ vscode/.cache/
 NOTES.md
 TODO.md
 
+# Warp terminal (no longer used)
+.config/warp-terminal/
+
 # Personal Claude context
 .claude/CLAUDE.md

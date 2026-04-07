@@ -48,14 +48,6 @@ echo "🔨 Linking local binaries..."
 mkdir -p "$HOME/.local/bin"
 ln -sf "$DOTFILES/.local/bin/env" "$HOME/.local/bin/env"
 
-# Warp terminal (if exists in dotfiles)
-if [ -d "$DOTFILES/.config/warp-terminal" ]; then
-    echo "⚡ Linking Warp terminal configuration..."
-    mkdir -p "$HOME/.config/warp-terminal"
-    ln -sf "$DOTFILES/.config/warp-terminal/keybindings.yaml" "$HOME/.config/warp-terminal/keybindings.yaml"
-    ln -sf "$DOTFILES/.config/warp-terminal/shell.toml" "$HOME/.config/warp-terminal/shell.toml"
-fi
-
 # Electron/Chromium flags for Wayland/GPU compatibility
 echo "🎨 Linking Electron/Chromium flags..."
 ln -sf "$DOTFILES/.config/code-flags.conf" "$HOME/.config/code-flags.conf"
