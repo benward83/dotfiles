@@ -72,6 +72,12 @@ function gcm() {
     return 1
   fi
 
+  local repo_root=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ "$repo_root" != *"Work/Enspirit/coverseal"* ]]; then
+    git commit -m "$msg"
+    return $?
+  fi
+
   local module=""
   local -a detected=()
 
@@ -109,10 +115,10 @@ function gcm() {
   if [ ${#detected[@]} -eq 1 ]; then
     module="${detected[1]}"
   elif [ ${#detected[@]} -gt 1 ]; then
-    module=$(printf '%s\n' "*" "${detected[@]}" | fzf --prompt="Multiple modules detected. Pick: " --height=15 --reverse | head -1)
+    module=$(printf '%s\n' "*" "${detected[@]}" | fzf --prompt="Multiple modules detected. Pick (* for all): " --height=15 --reverse | head -1)
   else
-    local all_modules=("SMC" "Pkg" "Helm" "CI" "Webspicy" "dbagent" "Emb" "E2E" "Mobile" "Kiln")
-    module=$(printf '%s\n' "${all_modules[@]}" | fzf --prompt="Module: " --height=15 --reverse)
+    local all_modules=("*" "SMC" "Pkg" "Helm" "CI" "Webspicy" "dbagent" "Emb" "E2E" "Mobile" "Kiln")
+    module=$(printf '%s\n' "${all_modules[@]}" | fzf --prompt="Module (* for all): " --height=15 --reverse)
   fi
 
   [ -z "$module" ] && return 1
