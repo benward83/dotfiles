@@ -50,7 +50,9 @@ if [ -f "$DOTFILES/vscode/settings.json" ]; then
     echo "💙 Linking VS Code configuration..."
     VSCODE_USER_DIR="$HOME/Library/Application Support/Code/User"
     mkdir -p "$VSCODE_USER_DIR"
-    ln -sf "$DOTFILES/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
+
+    jq -s '.[0] * .[1]' "$DOTFILES/vscode/settings.json" "$DOTFILES/vscode/settings.mac.json" > "$VSCODE_USER_DIR/settings.json"
+
     ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
 
     # Install extensions if extensions.txt exists

@@ -106,13 +106,22 @@ echo ""
 echo "VS Code:"
 if [[ "$PLATFORM" == "Darwin" ]]; then
     VSCODE_DIR="$HOME/Library/Application Support/Code/User"
-    check_link "$VSCODE_DIR/settings.json"    "$DOTFILES/vscode/settings.json"    "VS Code settings.json"
+    if [ -f "$VSCODE_DIR/settings.json" ]; then
+        ok "VS Code settings.json (generated file)"
+    else
+        warn "VS Code settings.json missing — run setup-macos.sh"
+    fi
     check_link "$VSCODE_DIR/keybindings.json" "$DOTFILES/vscode/keybindings.json" "VS Code keybindings.json"
 else
-    check_link "$HOME/.config/Code/User/settings.json"        "$DOTFILES/vscode/settings.json"    "Code settings.json"
-    check_link "$HOME/.config/Code/User/keybindings.json"      "$DOTFILES/vscode/keybindings.json" "Code keybindings.json"
-    check_link "$HOME/.config/Code - OSS/User/settings.json"   "$DOTFILES/vscode/settings.json"    "Code-OSS settings.json"
-    check_link "$HOME/.config/Code - OSS/User/keybindings.json" "$DOTFILES/vscode/keybindings.json" "Code-OSS keybindings.json"
+    for dir in "$HOME/.config/Code/User" "$HOME/.config/Code - OSS/User"; do
+        label=$(basename "$(dirname "$dir")")
+        if [ -f "$dir/settings.json" ]; then
+            ok "$label settings.json (generated file)"
+        else
+            warn "$label settings.json missing — run setup-linux.sh"
+        fi
+        check_link "$dir/keybindings.json" "$DOTFILES/vscode/keybindings.json" "$label keybindings.json"
+    done
 fi
 echo ""
 

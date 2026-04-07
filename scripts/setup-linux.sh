@@ -70,16 +70,15 @@ fi
 if [ -f "$DOTFILES/vscode/settings.json" ]; then
     echo "💙 Linking VS Code configuration..."
 
-    # Link for standard VS Code
     VSCODE_USER_DIR="$HOME/.config/Code/User"
-    mkdir -p "$VSCODE_USER_DIR"
-    ln -sf "$DOTFILES/vscode/settings.json" "$VSCODE_USER_DIR/settings.json"
-    ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
-
-    # Link for Code - OSS (open source build)
     VSCODE_OSS_USER_DIR="$HOME/.config/Code - OSS/User"
-    mkdir -p "$VSCODE_OSS_USER_DIR"
-    ln -sf "$DOTFILES/vscode/settings.json" "$VSCODE_OSS_USER_DIR/settings.json"
+    mkdir -p "$VSCODE_USER_DIR" "$VSCODE_OSS_USER_DIR"
+
+    MERGED=$(jq -s '.[0] * .[1]' "$DOTFILES/vscode/settings.json" "$DOTFILES/vscode/settings.linux.json")
+    echo "$MERGED" > "$VSCODE_USER_DIR/settings.json"
+    echo "$MERGED" > "$VSCODE_OSS_USER_DIR/settings.json"
+
+    ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_USER_DIR/keybindings.json"
     ln -sf "$DOTFILES/vscode/keybindings.json" "$VSCODE_OSS_USER_DIR/keybindings.json"
 
     # Install extensions if extensions.txt exists
