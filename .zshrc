@@ -383,7 +383,8 @@ openclaw() {
       ssh $server "sudo tail -${2:-20} /var/log/daily-job-search.log"
       ;;
     *)
-      if type _openclaw_ext &>/dev/null && _openclaw_ext "$@"; then
+      if type _openclaw_ext &>/dev/null; then
+        _openclaw_ext "$@"
         return
       fi
       echo "Usage: openclaw {start|stop|restart|status|logs [container]|deploy|deploy-pipe|deploy-jobs|run-jobs|jobs-log}"
