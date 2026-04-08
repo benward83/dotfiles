@@ -382,8 +382,25 @@ openclaw() {
     jobs-log)
       ssh $server "sudo tail -${2:-20} /var/log/daily-job-search.log"
       ;;
+    deploy-cookies)
+      local cookies_dir=~/openclaw-setup/cookies
+      if [ ! -d "$cookies_dir" ] || [ -z "$(ls -A "$cookies_dir" 2>/dev/null)" ]; then
+        echo "No cookies to deploy. Run: python3 ~/openclaw-setup/capture-cookies.py --list"
+        return 1
+      fi
+      ssh $server "sudo mkdir -p /root/openclaw/cookies && sudo chmod 700 /root/openclaw/cookies"
+      for f in "$cookies_dir"/*.json; do
+        scp "$f" $server:/tmp/cookie_upload.json && \
+        ssh $server "sudo mv /tmp/cookie_upload.json /root/openclaw/cookies/$(basename $f) && sudo chmod 600 /root/openclaw/cookies/$(basename $f)"
+        echo "  Deployed: $(basename $f)"
+      done
+      echo "Done."
+      ;;
+    cookies-status)
+      python3 ~/openclaw-setup/capture-cookies.py --status
+      ;;
     *)
-      echo "Usage: openclaw {start|stop|restart|status|logs [container]|deploy|deploy-pipe|deploy-jobs|run-jobs|jobs-log}"
+      echo "Usage: openclaw {start|stop|restart|status|logs [container]|deploy|deploy-pipe|deploy-jobs|run-jobs|jobs-log|deploy-cookies|cookies-status}"
       ;;
   esac
 }
