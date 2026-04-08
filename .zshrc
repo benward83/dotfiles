@@ -426,4 +426,7 @@ else
   EMB_AC_ZSH_SETUP_PATH="$HOME/.cache/emb/autocomplete/zsh_setup" && test -f "$EMB_AC_ZSH_SETUP_PATH" && source "$EMB_AC_ZSH_SETUP_PATH"
 fi
 
-[ -f ~/Documents/Obsidian\ Vault/Clive/OpenClaw/zshrc.local ] && source ~/Documents/Obsidian\ Vault/Clive/OpenClaw/zshrc.local
+for _zl in ~/Documents/{Me,"Obsidian Vault"}/Clive/OpenClaw/zshrc.local; do
+  [ -f "$_zl" ] && source "$_zl" && break
+done
+unset _zl
