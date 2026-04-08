@@ -1,5 +1,7 @@
 # My Global Coding Standards
 
+**Always read `~/.claude/lessons.md` at the start of every session.** It contains corrected patterns and project-specific rules that must be followed.
+
 ## Your approach
 - Never 'guess', we like and need analysis.
 - No problem saying 'I don't know'

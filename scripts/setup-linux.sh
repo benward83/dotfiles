@@ -101,6 +101,7 @@ rm -rf "$HOME/.claude/rules"
 ln -sfn "$DOTFILES/claude-code/rules" "$HOME/.claude/rules"
 rm -rf "$HOME/.claude/skills"
 ln -sfn "$DOTFILES/claude-code/skills" "$HOME/.claude/skills"
+ln -sf "$DOTFILES/claude-code/lessons.md" "$HOME/.claude/lessons.md"
 
 echo "✅ Linux dotfiles setup complete!"
 echo ""

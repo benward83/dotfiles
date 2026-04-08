@@ -383,6 +383,9 @@ openclaw() {
       ssh $server "sudo tail -${2:-20} /var/log/daily-job-search.log"
       ;;
     *)
+      if type _openclaw_ext &>/dev/null && _openclaw_ext "$@"; then
+        return
+      fi
       echo "Usage: openclaw {start|stop|restart|status|logs [container]|deploy|deploy-pipe|deploy-jobs|run-jobs|jobs-log}"
       ;;
   esac
@@ -421,3 +424,5 @@ else
   [[ -f "$HOME/.local/bin/env" ]] && . "$HOME/.local/bin/env"
   EMB_AC_ZSH_SETUP_PATH="$HOME/.cache/emb/autocomplete/zsh_setup" && test -f "$EMB_AC_ZSH_SETUP_PATH" && source "$EMB_AC_ZSH_SETUP_PATH"
 fi
+
+[ -f ~/.zshrc.local ] && source ~/.zshrc.local

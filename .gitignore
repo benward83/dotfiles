@@ -90,5 +90,8 @@ TODO.md
 # Omarchy themes (Linux-only, kept locally)
 linux/omarchy/themes/
 
+# Local shell extensions (sensitive/private)
+.zshrc.local
+
 # Personal Claude context
 .claude/CLAUDE.md
