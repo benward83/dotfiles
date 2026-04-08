@@ -425,4 +425,4 @@ else
   EMB_AC_ZSH_SETUP_PATH="$HOME/.cache/emb/autocomplete/zsh_setup" && test -f "$EMB_AC_ZSH_SETUP_PATH" && source "$EMB_AC_ZSH_SETUP_PATH"
 fi
 
-[ -f ~/.zshrc.local ] && source ~/.zshrc.local
+[ -f ~/Documents/Obsidian\ Vault/Clive/OpenClaw/zshrc.local ] && source ~/Documents/Obsidian\ Vault/Clive/OpenClaw/zshrc.local
