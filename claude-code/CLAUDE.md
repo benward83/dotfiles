@@ -1,12 +1,12 @@
 # My Global Coding Standards
 
-**Always read `~/.claude/lessons.md` at the start of every session.** It contains corrected patterns and project-specific rules that must be followed.
+**Always read `~/.claude/lessons.md` and `~/.claude/lessons-private.md` at the start of every session.** They contain corrected patterns and project-specific rules that must be followed.
 
 ## Your approach
 - Never 'guess', we like and need analysis.
 - No problem saying 'I don't know'
 - No putting comments in files unless explicitly asked to do so
-- Don't remind me of obvious basic commands like 'emb up' or 'make build' - I know how to run things
+- Don't remind me of obvious basic commands - I know how to run things
 
 ## Tech Stack
 - Primary: JavaScript, Vue 3, TypeScript
@@ -24,9 +24,8 @@
 - Prefer integration tests over unit tests
 
 ## Task Management
-- Tasks live in Obsidian vault at `~/Documents/Obsidian Vault/Enspirit/<Project>/Tasks.md`
-- Current project: **Coverseal** → `~/Documents/Obsidian Vault/Enspirit/Coverseal/Tasks.md`
-- Sections: Blocked/Waiting → In Progress → Ready to Start → Related/Spawned → Backlog → Done
+- Tasks live in Obsidian vault — each project has its own `Tasks.md`
+- Standard sections: Blocked/Waiting → In Progress → Ready for Review → Ready to Start → Backlog → Done
 - Use sub-tasks (indented with checkboxes `- [ ]`) for related items within a task. The main task stays as the focus; sub-tasks are tracked with checkboxes to mark progress incrementally
 - For spawned tasks, note the origin: `(spawned from: xyz)`
 - Use backticks for branch names
