@@ -400,11 +400,15 @@ alice() {
     stop)    ssh $server "$remote down'" ;;
     restart) ssh $server "$remote down && cd /opt/alices-website && docker compose -f docker-compose.prod.yml up -d'" ;;
     build)   ssh $server "$remote up -d --build'" ;;
-    deploy)  ssh $server "sudo bash -c 'cd /opt/alices-website && git pull && docker compose -f docker-compose.prod.yml up -d --build'" ;;
+    deploy)  ssh $server "cd /opt/alices-website && git pull && sudo docker compose -f docker-compose.prod.yml up -d --build" ;;
     status)  ssh $server "$remote ps'" ;;
     logs)    ssh $server "$remote logs --tail 100 ${2:---all}'" ;;
+    dev)
+      local dir=~/Work/Projects/alices-website
+      docker compose -f "$dir/docker-compose.dev.yml" up -d && (cd "$dir" && pnpm dev)
+      ;;
     *)
-      echo "Usage: alice {start|stop|restart|build|deploy|status|logs [container]}"
+      echo "Usage: alice {start|stop|restart|build|deploy|dev|status|logs [container]}"
       ;;
   esac
 }
