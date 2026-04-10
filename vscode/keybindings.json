@@ -44,5 +44,37 @@
   {
     "key": "ctrl+alt+down",
     "command": "workbench.action.terminal.resizePaneDown"
+  },
+  {
+    "key": "ctrl+\\",
+    "command": "workbench.action.terminal.split",
+    "when": "terminalFocus && terminalProcessSupported"
+  },
+  {
+    "key": "ctrl+shift+\\",
+    "command": "workbench.action.terminal.kill",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+`",
+    "command": "workbench.action.focusActiveEditorGroup",
+    "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+`",
+    "command": "workbench.action.terminal.focus",
+    "when": "!terminalFocus && panelVisible"
+  },
+  {
+    "key": "ctrl+`",
+    "command": "-workbench.action.terminal.toggleTerminal"
+  },
+  {
+    "key": "ctrl+`",
+    "command": "workbench.action.terminal.toggleTerminal",
+    "when": "!terminalFocus && !panelVisible"
+  },
+  {
+    "key": "ctrl+shift+`",
+    "command": "workbench.action.terminal.toggleTerminal"
   }
-]

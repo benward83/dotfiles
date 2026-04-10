@@ -354,7 +354,7 @@ typeset -g POWERLEVEL9K_INSTANT_PROMPT=quiet
 # ============================================
 
 openclaw() {
-  local server="ben@100.79.153.20"
+  local server="${HETZNER_SSH:?Set HETZNER_SSH in zshrc.local}"
   local remote="sudo bash -c 'cd /root/openclaw && docker compose"
   case "$1" in
     start)   ssh $server "$remote up -d'" ;;
@@ -393,17 +393,18 @@ openclaw() {
 }
 
 alice() {
-  local server="ben@100.79.153.20"
+  local server="${HETZNER_SSH:?Set HETZNER_SSH in zshrc.local}"
   local remote="sudo bash -c 'cd /opt/alices-website && docker compose -f docker-compose.prod.yml"
   case "$1" in
     start)   ssh $server "$remote up -d'" ;;
     stop)    ssh $server "$remote down'" ;;
     restart) ssh $server "$remote down && cd /opt/alices-website && docker compose -f docker-compose.prod.yml up -d'" ;;
     build)   ssh $server "$remote up -d --build'" ;;
+    deploy)  ssh $server "sudo bash -c 'cd /opt/alices-website && git pull && docker compose -f docker-compose.prod.yml up -d --build'" ;;
     status)  ssh $server "$remote ps'" ;;
     logs)    ssh $server "$remote logs --tail 100 ${2:---all}'" ;;
     *)
-      echo "Usage: alice {start|stop|restart|build|status|logs [container]}"
+      echo "Usage: alice {start|stop|restart|build|deploy|status|logs [container]}"
       ;;
   esac
 }
