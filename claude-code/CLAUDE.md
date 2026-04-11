@@ -1,6 +1,8 @@
 # My Global Coding Standards
 
-**Always read `~/.claude/lessons.md` and `~/.claude/lessons-private.md` at the start of every session.** They contain corrected patterns and project-specific rules that must be followed.
+**Always read these at the start of every session:**
+1. `~/Documents/Obsidian Vault/Vault Index.md` — vault map, project constraints, how to operate
+2. `~/.claude/lessons.md` and `~/.claude/lessons-private.md` — corrected patterns and project-specific rules
 
 ## Your approach
 - Never 'guess', we like and need analysis.
