@@ -413,6 +413,23 @@ alice() {
   esac
 }
 
+lb() {
+  local dir=~/Work/Projects/ledgerbridge
+  case "$1" in
+    up)      (cd "$dir" && docker compose up "${@:2}") ;;
+    down)    (cd "$dir" && docker compose down "${@:2}") ;;
+    reset)   (cd "$dir" && docker compose down -v && docker compose up "${@:2}") ;;
+    status)  (cd "$dir" && docker compose ps) ;;
+    logs)    (cd "$dir" && docker compose logs --tail 100 ${2:---all} -f) ;;
+    test)    (cd "$dir/api" && ~/.local/bin/uv run pytest tests/ -v "${@:2}") ;;
+    lint)    (cd "$dir/api" && ~/.local/bin/uv run ruff check app/) ;;
+    migrate) (cd "$dir/api" && ~/.local/bin/uv run alembic upgrade head) ;;
+    *)
+      echo "Usage: lb {up|down|reset|status|logs [container]|test|lint|migrate}"
+      ;;
+  esac
+}
+
 # ============================================
 # Platform-specific configuration
 # ============================================
