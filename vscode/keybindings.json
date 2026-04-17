@@ -83,4 +83,8 @@
     "command": "workbench.action.terminal.sendSequence",
     "args": { "text": "\u001b[13;2u" },
     "when": "terminalFocus"
+  },
+  {
+    "key": "ctrl+shift+g",
+    "command": "workbench.view.scm"
   }
