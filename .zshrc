@@ -140,6 +140,7 @@ alias gap="git add -p"
 alias grbi="git rebase -i origin/main"
 alias grbc="git rebase --continue"
 alias grba="git rebase --abort"
+alias grw='GIT_EDITOR="nano" git rebase -i HEAD~'
 alias gamend="git commit --amend -m"
 alias gamnoed="git commit --amend --no-edit"
 alias gcmrd="git push -o merge_request.draft"
