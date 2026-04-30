@@ -66,15 +66,36 @@ if [ -f "$DOTFILES/vscode/settings.json" ]; then
     fi
 fi
 
-# Claude Code
-echo "🤖 Linking Claude Code configuration..."
-mkdir -p "$HOME/.claude"
-ln -sf "$DOTFILES/claude-code/settings.json" "$HOME/.claude/settings.json"
-ln -sf "$DOTFILES/claude-code/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
-rm -rf "$HOME/.claude/rules"
-ln -sfn "$DOTFILES/claude-code/rules" "$HOME/.claude/rules"
-rm -rf "$HOME/.claude/skills"
-ln -sfn "$DOTFILES/claude-code/skills" "$HOME/.claude/skills"
+# Claude Code — config lives in Obsidian vault, symlinked from ~/.claude/
+echo "🤖 Linking Claude Code configuration (from Obsidian vault)..."
+VAULT="$HOME/Documents/Obsidian Vault/Tooling/Claude Code"
+if [ -d "$VAULT" ]; then
+    mkdir -p "$HOME/.claude"
+    ln -sf "$VAULT/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+    ln -sf "$VAULT/lessons.md" "$HOME/.claude/lessons.md"
+    ln -sf "$VAULT/lessons-private.md" "$HOME/.claude/lessons-private.md"
+    ln -sf "$VAULT/settings.json" "$HOME/.claude/settings.json"
+    rm -rf "$HOME/.claude/rules"
+    ln -sfn "$VAULT/rules" "$HOME/.claude/rules"
+    rm -rf "$HOME/.claude/skills"
+    ln -sfn "$VAULT/skills" "$HOME/.claude/skills"
+    rm -rf "$HOME/.claude/hooks"
+    ln -sfn "$VAULT/hooks" "$HOME/.claude/hooks"
+
+    # Shell scripts need execute bit (Obsidian Sync doesn't preserve permissions)
+    find "$VAULT" -name "*.sh" -exec chmod +x {} \;
+
+    # Memory symlink (project path is platform-specific)
+    PROJ_DIR="$HOME/.claude/projects/-Users-$(whoami)"
+    mkdir -p "$PROJ_DIR"
+    if [ ! -L "$PROJ_DIR/memory" ]; then
+        rm -rf "$PROJ_DIR/memory"
+        ln -s "$VAULT/memory" "$PROJ_DIR/memory"
+    fi
+else
+    echo "  ⚠️  Obsidian vault not found at $VAULT — skipping Claude Code setup"
+    echo "  Sync via Obsidian first, then re-run this script"
+fi
 
 echo "✅ macOS dotfiles setup complete!"
 echo ""

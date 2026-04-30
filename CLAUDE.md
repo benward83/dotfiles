@@ -137,11 +137,6 @@ Examples:
 │   └── omarchy/
 │       ├── config.sh            # Theme preference
 │       └── themes/              # Custom themes
-├── claude-code/
-│   ├── settings.json            # Claude Code shared settings (hooks, prefs)
-│   ├── CLAUDE.md                # Personal memory/instructions
-│   ├── rules/                   # Personal modular rules
-│   └── skills/                  # Custom slash commands
 ├── vscode/
 │   ├── settings.json            # VS Code settings
 │   ├── keybindings.json         # VS Code keybindings
@@ -256,20 +251,9 @@ git push
 
 ## Claude Code Configuration
 
-Claude Code settings are tracked in `claude-code/` and symlinked to `~/.claude/` on both platforms.
+Claude Code config has moved to the **Obsidian vault** (`~/Documents/Obsidian Vault/Tooling/Claude Code/`), synced across devices via Obsidian Sync. The setup scripts in this repo create symlinks from `~/.claude/` to the vault.
 
-**Synced files** (cross-machine):
-- `claude-code/settings.json` → `~/.claude/settings.json` (shared hooks/preferences)
-- `claude-code/CLAUDE.md` → `~/.claude/CLAUDE.md` (personal memory)
-- `claude-code/rules/` → `~/.claude/rules/` (personal rules)
-- `claude-code/skills/` → `~/.claude/skills/` (custom slash commands)
-
-**NOT synced** (machine-specific):
-- `~/.claude/settings.local.json` — Machine-specific permissions (paths differ per platform)
-- `~/.claude.json` — OAuth tokens, stays local
-- `~/.claude/{cache,debug,history.jsonl,projects,todos}` — Runtime data
-
-**IMPORTANT**: If `claude-code/MIGRATE_MAC.md` exists, follow its instructions to migrate the MacBook's mature config into this repo, then delete the file.
+See `Tooling/Claude Code/Cross-Device Setup.md` in the vault for full details.
 
 ## Dependencies
 
