@@ -1,14 +1,6 @@
 // Place your key bindings in this file to override the defaults
 [
   {
-    "key": "ctrl+alt+meta+left",
-    "command": "cursorLineStart"
-  },
-  {
-    "key": "ctrl+alt+meta+right",
-    "command": "cursorLineEnd"
-  },
-  {
     "key": "ctrl+shift+left",
     "command": "-cursorWordLeftSelect",
     "when": "textInputFocus"
