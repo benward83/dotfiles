@@ -13,3 +13,5 @@
 	path = ~/.gitconfig-personal
 [includeIf "gitdir:~/personal/"]
 	path = ~/.gitconfig-personal
+[sequence]
+	editor = code --wait
