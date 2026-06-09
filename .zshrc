@@ -137,7 +137,20 @@ alias ghead="git reset HEAD~"
 alias gline="git log --oneline"
 alias gflog="git reflog --date=format:'%Y-%m-%d %H:%M' --pretty"
 alias gap="git add -p"
-alias grbi="git rebase -i origin/main"
+git_default_branch() {
+  local ref
+  ref=$(git symbolic-ref --quiet --short refs/remotes/origin/HEAD 2>/dev/null) \
+    && { echo "${ref#origin/}"; return 0; }
+  ref=$(git ls-remote --symref origin HEAD 2>/dev/null \
+        | awk '/^ref:/{sub("refs/heads/","",$2); print $2; exit}')
+  [ -n "$ref" ] && { echo "$ref"; return 0; }
+  local b
+  for b in main staging master; do
+    git show-ref --verify --quiet "refs/remotes/origin/$b" && { echo "$b"; return 0; }
+  done
+  return 1
+}
+grbi() { git rebase -i "origin/$(git_default_branch)"; }
 alias grbc="git rebase --continue"
 alias grba="git rebase --abort"
 alias grw='GIT_EDITOR="nano" git rebase -i HEAD~'
