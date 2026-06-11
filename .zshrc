@@ -153,7 +153,14 @@ git_default_branch() {
 grbi() { git rebase -i "origin/$(git_default_branch)"; }
 alias grbc="git rebase --continue"
 alias grba="git rebase --abort"
-alias grw='GIT_EDITOR="nano" git rebase -i HEAD~'
+grw() {
+  if [[ -z "$1" ]]; then
+    echo "Commits ahead of origin/main:"
+    git log --oneline origin/main..HEAD | nl
+  else
+    GIT_SEQUENCE_EDITOR="nano" GIT_EDITOR="nano" EDITOR="nano" git rebase -i HEAD~$1
+  fi
+}
 alias gamend="git commit --amend -m"
 alias gamnoed="git commit --amend --no-edit"
 alias gcmrd="git push -o merge_request.draft"
@@ -466,3 +473,4 @@ for _zl in ~/Documents/{Me,"Obsidian Vault"}/Clive/OpenClaw/zshrc.local; do
   [ -f "$_zl" ] && source "$_zl" && break
 done
 unset _zl
+eval "$(direnv hook zsh)"
