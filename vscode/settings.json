@@ -15,7 +15,7 @@
   ],
   "editor.autoIndent": "full",
   "editor.trimAutoWhitespace": true,
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "files.trimTrailingWhitespace": true,
   "files.insertFinalNewline": true,
   "editor.tabSize": 2,
@@ -27,7 +27,6 @@
     "source.fixAll.eslint": "explicit"
   },
   "[dart]": {
-    "editor.formatOnSave": true,
     "editor.formatOnType": true,
     "editor.rulers": [
       80
