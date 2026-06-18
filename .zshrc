@@ -144,14 +144,24 @@ git_default_branch() {
 grbi() { git rebase -i "origin/$(git_default_branch)"; }
 
 grw() {
-  if [[ -z "$1" ]]; then
-    local default
-    default=$(git_default_branch)
-    echo "Commits ahead of origin/$default:"
-    git log --oneline "origin/$default"..HEAD | nl
+  local default count target
+  default=$(git_default_branch)
+  echo "Commits ahead of origin/$default:"
+  git log --oneline "origin/$default"..HEAD | nl
+
+  if [[ -n "$1" ]]; then
+    target="HEAD~$1"
   else
-    GIT_SEQUENCE_EDITOR="nano" GIT_EDITOR="nano" EDITOR="nano" git rebase -i HEAD~$1
+    echo
+    read "count?How many to rebase (blank = all ahead of origin/$default)? "
+    if [[ -z "$count" ]]; then
+      target="origin/$default"
+    else
+      target="HEAD~$count"
+    fi
   fi
+
+  GIT_SEQUENCE_EDITOR="nano" GIT_EDITOR="nano" EDITOR="nano" git rebase -i "$target"
 }
 
 function gaab() {
