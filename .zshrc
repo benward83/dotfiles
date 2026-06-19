@@ -229,7 +229,7 @@ function gstaging() {
 
 function gclean() {
   git fetch --prune
-  git branch -vv | grep ': gone]' | awk '{print $1}' | xargs git branch -d
+  git branch -vv | grep ': gone]' | awk '{print $1}' | xargs -r git branch -D
 }
 
 function gbranch() {
