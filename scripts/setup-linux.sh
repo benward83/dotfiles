@@ -99,12 +99,8 @@ if [ -d "$VAULT" ]; then
     mkdir -p "$HOME/.claude"
     ln -sf "$VAULT/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
     ln -sf "$VAULT/settings.json" "$HOME/.claude/settings.json"
-    rm -rf "$HOME/.claude/rules"
-    ln -sfn "$VAULT/rules" "$HOME/.claude/rules"
     rm -rf "$HOME/.claude/skills"
     ln -sfn "$VAULT/skills" "$HOME/.claude/skills"
-    rm -rf "$HOME/.claude/hooks"
-    ln -sfn "$VAULT/hooks" "$HOME/.claude/hooks"
     rm -rf "$HOME/.claude/output-styles"
     ln -sfn "$VAULT/output-styles" "$HOME/.claude/output-styles"
 
