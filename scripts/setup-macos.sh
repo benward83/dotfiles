@@ -72,8 +72,6 @@ VAULT="$HOME/Documents/Obsidian Vault/Tooling/Claude Code"
 if [ -d "$VAULT" ]; then
     mkdir -p "$HOME/.claude"
     ln -sf "$VAULT/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
-    ln -sf "$VAULT/lessons.md" "$HOME/.claude/lessons.md"
-    ln -sf "$VAULT/lessons-private.md" "$HOME/.claude/lessons-private.md"
     ln -sf "$VAULT/settings.json" "$HOME/.claude/settings.json"
     rm -rf "$HOME/.claude/rules"
     ln -sfn "$VAULT/rules" "$HOME/.claude/rules"
@@ -81,17 +79,11 @@ if [ -d "$VAULT" ]; then
     ln -sfn "$VAULT/skills" "$HOME/.claude/skills"
     rm -rf "$HOME/.claude/hooks"
     ln -sfn "$VAULT/hooks" "$HOME/.claude/hooks"
+    rm -rf "$HOME/.claude/output-styles"
+    ln -sfn "$VAULT/output-styles" "$HOME/.claude/output-styles"
 
     # Shell scripts need execute bit (Obsidian Sync doesn't preserve permissions)
     find "$VAULT" -name "*.sh" -exec chmod +x {} \;
-
-    # Memory symlink (project path is platform-specific)
-    PROJ_DIR="$HOME/.claude/projects/-Users-$(whoami)"
-    mkdir -p "$PROJ_DIR"
-    if [ ! -L "$PROJ_DIR/memory" ]; then
-        rm -rf "$PROJ_DIR/memory"
-        ln -s "$VAULT/memory" "$PROJ_DIR/memory"
-    fi
 else
     echo "  ⚠️  Obsidian vault not found at $VAULT — skipping Claude Code setup"
     echo "  Sync via Obsidian first, then re-run this script"
