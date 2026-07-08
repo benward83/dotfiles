@@ -30,6 +30,10 @@ ln -sf "$DOTFILES/.config/alacritty/alacritty.toml" "$HOME/.config/alacritty/ala
 mkdir -p "$HOME/.config/kitty"
 ln -sf "$DOTFILES/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
 
+mkdir -p "$HOME/.config/ghostty"
+ln -sf "$DOTFILES/.config/ghostty/config" "$HOME/.config/ghostty/config"
+ln -sf "$DOTFILES/.config/ghostty/linux.conf" "$HOME/.config/ghostty/platform.conf"
+
 # Neovim
 echo "✏️  Linking Neovim configuration..."
 ln -sf "$DOTFILES/.config/nvim" "$HOME/.config/nvim"

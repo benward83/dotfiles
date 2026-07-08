@@ -26,6 +26,18 @@ ln -sf "$DOTFILES/.config/alacritty/alacritty.toml" "$HOME/.config/alacritty/ala
 mkdir -p "$HOME/.config/kitty"
 ln -sf "$DOTFILES/.config/kitty/kitty.conf" "$HOME/.config/kitty/kitty.conf"
 
+# Ghostty reads ~/.config/ghostty/config, then layers Application Support on
+# top. Move that file aside or it silently overrides everything below.
+mkdir -p "$HOME/.config/ghostty"
+ln -sf "$DOTFILES/.config/ghostty/config" "$HOME/.config/ghostty/config"
+ln -sf "$DOTFILES/.config/ghostty/macos.conf" "$HOME/.config/ghostty/platform.conf"
+
+APPSUPPORT_GHOSTTY="$HOME/Library/Application Support/com.mitchellh.ghostty/config"
+if [ -f "$APPSUPPORT_GHOSTTY" ] && [ ! -L "$APPSUPPORT_GHOSTTY" ]; then
+    echo "  ⚠️  $APPSUPPORT_GHOSTTY exists and overrides ~/.config/ghostty — moving to .bak"
+    mv "$APPSUPPORT_GHOSTTY" "$APPSUPPORT_GHOSTTY.bak"
+fi
+
 # Neovim
 echo "✏️  Linking Neovim configuration..."
 mkdir -p "$HOME/.config"
