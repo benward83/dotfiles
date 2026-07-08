@@ -77,6 +77,10 @@ if [ -d "$VAULT" ]; then
     ln -sfn "$VAULT/skills" "$HOME/.claude/skills"
     rm -rf "$HOME/.claude/output-styles"
     ln -sfn "$VAULT/output-styles" "$HOME/.claude/output-styles"
+    rm -rf "$HOME/.claude/hooks"
+    ln -sfn "$VAULT/hooks" "$HOME/.claude/hooks"
+    rm -rf "$HOME/.claude/agents"
+    ln -sfn "$VAULT/agents" "$HOME/.claude/agents"
 
     # Shell scripts need execute bit (Obsidian Sync doesn't preserve permissions)
     find "$VAULT" -name "*.sh" -exec chmod +x {} \;
