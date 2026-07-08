@@ -40,6 +40,11 @@ echo "🌿 Linking Lazygit configuration..."
 mkdir -p "$HOME/.config/lazygit"
 ln -sf "$DOTFILES/.config/lazygit/config.yml" "$HOME/.config/lazygit/config.yml"
 
+# Tridactyl (Firefox vim bindings) — native messenger still needed per machine: :installnative
+echo "🦎 Linking Tridactyl configuration..."
+mkdir -p "$HOME/.config/tridactyl"
+ln -sf "$DOTFILES/.config/tridactyl/tridactylrc" "$HOME/.config/tridactyl/tridactylrc"
+
 # Local binaries
 echo "🔨 Linking local binaries..."
 mkdir -p "$HOME/.local/bin"
