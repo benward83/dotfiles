@@ -369,6 +369,15 @@ function kmigrate() {
   kscale dbagent 0 "$1"
 }
 
+function kdeploy() {
+  if [[ "$1" != "stg-coverseal" && "$1" != "coverseal" ]]; then
+    echo "Usage: kdeploy <stg-coverseal|coverseal>"
+    echo "Example: kdeploy stg-coverseal"
+    return 1
+  fi
+  D="$1" emb run helm.upgrade
+}
+
 function kscale-status() {
   if [[ -z "$1" || -z "$2" ]]; then
     echo "Usage: kscale-status <service> <env>"
