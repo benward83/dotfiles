@@ -34,8 +34,16 @@ shell-integration-features = no-cursor,ssh-env
 # TODO: neither keyboard has an Insert key; these two are inert.
 keybind = shift+insert=paste_from_clipboard
 keybind = control+insert=copy_to_clipboard
-keybind = ctrl+alt+left=text:\x01
-keybind = ctrl+alt+right=text:\x05
+
+# Line + word motion. Same binds on macOS and Linux (super = cmd / Super key).
+# super     = jump to line start/end (\x01 = Ctrl+A, \x05 = Ctrl+E).
+# super+alt = jump a word (\x1bb = Alt+B back, \x1bf = Alt+F forward).
+# ctrl+arrow is the macOS workspace switcher and alt+arrow is split-nav below,
+# so word-jump uses super+alt to dodge both.
+keybind = super+left=text:\x01
+keybind = super+right=text:\x05
+keybind = super+alt+left=text:\x1bb
+keybind = super+alt+right=text:\x1bf
 keybind = ctrl+backspace=text:\x17
 keybind = ctrl+shift+backspace=text:\x15
 
@@ -45,6 +53,12 @@ keybind = ctrl+shift+e=new_split:down
 keybind = ctrl+shift+enter=toggle_split_zoom
 keybind = ctrl+shift+equal=equalize_splits
 keybind = ctrl+shift+w=close_surface
+
+# Split resizing (20px steps)
+keybind = ctrl+shift+h=resize_split:left,20
+keybind = ctrl+shift+j=resize_split:down,20
+keybind = ctrl+shift+k=resize_split:up,20
+keybind = ctrl+shift+l=resize_split:right,20
 
 # Split navigation
 keybind = alt+left=goto_split:left
