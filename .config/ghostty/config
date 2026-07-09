@@ -48,6 +48,7 @@ keybind = ctrl+backspace=text:\x17
 keybind = ctrl+shift+backspace=text:\x15
 
 # Splits
+split-divider-color = #8b2a3f
 keybind = ctrl+shift+backslash=new_split:right
 keybind = ctrl+shift+e=new_split:down
 keybind = ctrl+shift+enter=toggle_split_zoom
