@@ -539,3 +539,5 @@ unset _zl
 # ============================================
 
 command -v direnv &>/dev/null && eval "$(direnv hook zsh)"
+
+. "$HOME/.local/share/../bin/env"

@@ -8,3 +8,5 @@ fi
 # User specific environment and startup programs
 
 . "$HOME/.local/bin/env"
+
+. "$HOME/.local/share/../bin/env"

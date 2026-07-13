@@ -75,3 +75,6 @@ keybind = alt+up=goto_split:top
 keybind = alt+down=goto_split:bottom
 keybind = performable:ctrl+tab=goto_split:next
 keybind = performable:ctrl+shift+tab=goto_split:previous
+
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = 0.95

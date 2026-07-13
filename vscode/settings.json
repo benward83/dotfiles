@@ -94,7 +94,7 @@
   },
   "gitlens.ai.model": "vscode",
   "gitlens.ai.vscode.model": "copilot:gpt-4.1",
-  "workbench.colorTheme": "Dark Modern",
+  "workbench.colorTheme": "Gruvbox Dark Medium",
   "workbench.iconTheme": "vscode-icons",
   "claudeCode.preferredLocation": "panel"
 }

@@ -1,4 +1,3 @@
-
 [Default Applications]
 image/png=imv.desktop
 image/jpeg=imv.desktop
@@ -30,4 +29,26 @@ application/ogg=mpv.desktop
 x-scheme-handler/mailto=HEY.desktop
 x-scheme-handler/claude-cli=claude-code-url-handler.desktop
 x-scheme-handler/ferdium-dev=ferdium.desktop
-x-scheme-handler/claude=com.anthropic.claude-desktop.desktop
+x-scheme-handler/claude=claude-desktop.desktop
+text/plain=nvim.desktop
+text/english=nvim.desktop
+text/x-makefile=nvim.desktop
+text/x-c++hdr=nvim.desktop
+text/x-c++src=nvim.desktop
+text/x-chdr=nvim.desktop
+text/x-csrc=nvim.desktop
+text/x-java=nvim.desktop
+text/x-moc=nvim.desktop
+text/x-pascal=nvim.desktop
+text/x-tcl=nvim.desktop
+text/x-tex=nvim.desktop
+application/x-shellscript=nvim.desktop
+text/x-c=nvim.desktop
+text/x-c++=nvim.desktop
+application/xml=nvim.desktop
+text/xml=nvim.desktop
+inode/directory=org.gnome.Nautilus.desktop
+x-scheme-handler/slack=slack.desktop
+
+[Added Associations]
+x-scheme-handler/slack=slack.desktop;
