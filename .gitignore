@@ -95,3 +95,4 @@ linux/omarchy/themes/
 
 # Personal Claude context
 .claude/CLAUDE.md
+.config/nvim/lua/plugins/theme.lua
