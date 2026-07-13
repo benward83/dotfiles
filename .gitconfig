@@ -1,7 +1,7 @@
 [pull]
 	ff = only
 [core]
-	editor = code --wait
+	editor = nvim
 [user]
 	name = Ben Ward
 	email = bward@quadrabee.com
