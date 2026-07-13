@@ -1,0 +1,6 @@
+customCommands:
+  - key: "m"
+    context: "localBranches"
+    description: "GitLab: create MR on push (gcmr)"
+    command: "git push -o merge_request.create"
+    loadingText: "Creating merge request..."
