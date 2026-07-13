@@ -36,15 +36,15 @@ ZSH_HIGHLIGHT_PATTERNS+=("node" fg=green,bold)
 # Environment
 # ============================================
 
-# Editor (vim over SSH, VS Code locally)
+# Editor (vim over SSH, nvim locally)
 if [[ -n $SSH_CONNECTION ]]; then
   export EDITOR='vim'
   export VISUAL='vim'
 else
-  export EDITOR='code'
-  export VISUAL='code'
+  export EDITOR='nvim'
+  export VISUAL='nvim'
 fi
-export GIT_EDITOR='code -w'
+export GIT_EDITOR='nvim'
 
 # NVM
 export NVM_DIR="$HOME/.nvm"
@@ -52,7 +52,7 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"
 
 # FZF
-export FZF_DEFAULT_OPTS="--bind 'ctrl-o:execute(code {})+abort'"
+export FZF_DEFAULT_OPTS="--bind 'ctrl-o:execute(nvim {})+abort'"
 
 # ============================================
 # Secrets (machine-local, not tracked)
@@ -64,8 +64,8 @@ export FZF_DEFAULT_OPTS="--bind 'ctrl-o:execute(code {})+abort'"
 # General aliases
 # ============================================
 
-alias claude-config='code ~/.claude/CLAUDE.md'
-alias zshrc='code ~/.zshrc'
+alias claude-config='nvim ~/.claude/CLAUDE.md'
+alias zshrc='nvim ~/.zshrc'
 alias embk="emb kubernetes"
 
 # ============================================
@@ -159,7 +159,7 @@ grw() {
     target="origin/$default"
   fi
 
-  GIT_SEQUENCE_EDITOR="nano" GIT_EDITOR="nano" EDITOR="nano" git rebase -i "$target"
+  GIT_SEQUENCE_EDITOR="nvim" GIT_EDITOR="nvim" EDITOR="nvim" git rebase -i "$target"
 }
 
 function gaab() {
