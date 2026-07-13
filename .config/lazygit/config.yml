@@ -1,3 +1,6 @@
+gui:
+  showFileTree: false
+
 customCommands:
   - key: "<c-g>"
     context: "localBranches"
