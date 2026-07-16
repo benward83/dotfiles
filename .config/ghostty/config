@@ -35,11 +35,21 @@ shell-integration-features = no-cursor,ssh-env
 keybind = shift+insert=paste_from_clipboard
 keybind = control+insert=copy_to_clipboard
 
-# Line + word motion. Same binds on macOS and Linux (super = cmd / Super key).
-# super     = jump to line start/end (\x01 = Ctrl+A, \x05 = Ctrl+E).
-# super+alt = jump a word (\x1bb = Alt+B back, \x1bf = Alt+F forward).
-# ctrl+arrow is the macOS workspace switcher and alt+arrow is split-nav below,
-# so word-jump uses super+alt to dodge both.
+# Line + word motion. The cross-platform set — the only arrow chords free on
+# both systems (Hyprland owns every super+arrow combo, macOS owns ctrl+arrow
+# for Spaces, alt+arrow is split-nav below):
+# alt+shift+left/right = jump a word (\x1bb = Alt+B back, \x1bf = Alt+F fwd).
+# alt+shift+up/down    = line start/end (\x01 = Ctrl+A, \x05 = Ctrl+E).
+# Not ctrl+alt: that lands on the split-nav binds on Linux. On Linux the us/es
+# layout toggle lives on both-alts-together (grp:alts_toggle in hypr
+# input.conf) so no single-modifier chord can flip it.
+keybind = alt+shift+left=text:\x1bb
+keybind = alt+shift+right=text:\x1bf
+keybind = alt+shift+up=text:\x01
+keybind = alt+shift+down=text:\x05
+
+# macOS-native extras: cmd = line, cmd+alt = word. Hyprland eats these on
+# Linux, so they are effectively mac-only.
 keybind = super+left=text:\x01
 keybind = super+right=text:\x05
 keybind = super+alt+left=text:\x1bb
