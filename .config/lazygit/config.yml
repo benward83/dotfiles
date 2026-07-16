@@ -7,3 +7,8 @@ customCommands:
     description: "GitLab: create MR on push (gcmr)"
     command: "git push -o merge_request.create"
     loadingText: "Creating merge request..."
+  - key: "<c-r>"
+    context: "global"
+    description: "Coverseal: full DB reset (down, wipe, up, migrate, base, gen types)"
+    command: "coverseal-db-reset"
+    output: terminal
