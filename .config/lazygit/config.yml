@@ -12,3 +12,8 @@ customCommands:
     description: "Coverseal: full DB reset (down, wipe, up, migrate, base, gen types)"
     command: "coverseal-db-reset"
     output: terminal
+  - key: "<c-x>"
+    context: "global"
+    description: "DB: migrate dev after switching branches"
+    command: "just db::migrate-dev"
+    output: terminal
