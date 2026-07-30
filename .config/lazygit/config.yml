@@ -1,6 +1,9 @@
 gui:
   showFileTree: false
 
+services:
+  "gitlab.q8s.dev": "gitlab:gitlab.q8s.dev"
+
 customCommands:
   - key: "<c-g>"
     context: "localBranches"
