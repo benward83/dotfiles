@@ -4,11 +4,15 @@ gui:
 services:
   "gitlab.q8s.dev": "gitlab:gitlab.q8s.dev"
 
+keybinding:
+  branches:
+    createPullRequest: <disabled>
+
 customCommands:
-  - key: "<c-g>"
+  - key: "o"
     context: "localBranches"
-    description: "GitLab: create MR on push (gcmr)"
-    command: "git push -o merge_request.create"
+    description: "GitLab: create MR for selected branch"
+    command: "git push -u origin {{.SelectedLocalBranch.Name}} -o merge_request.create"
     loadingText: "Creating merge request..."
   - key: "<c-r>"
     context: "global"
