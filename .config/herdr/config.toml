@@ -2,18 +2,18 @@
 # ~/.config/herdr/ also holds sockets/logs/session state; only this file is tracked.
 
 [keys]
-# Direct terminal-mode chords — ctrl+alt+letter is unused by shells, vim, and
-# the agents, and only DELETE/TAB are taken at the Hyprland level.
-focus_pane_left = "ctrl+alt+h"
-focus_pane_down = "ctrl+alt+j"
-focus_pane_up = "ctrl+alt+k"
-focus_pane_right = "ctrl+alt+l"
-split_vertical = "ctrl+alt+v"
-split_horizontal = "ctrl+alt+s"
-new_tab = "ctrl+alt+t"
-close_tab = "ctrl+alt+w"
-close_pane = "ctrl+alt+x"
-zoom = "ctrl+alt+z"
+# Prefix-free layer on plain alt — same delivery path as the proven alt+1..9.
+# Each action lists its ctrl+b default too, since overriding replaces defaults.
+focus_pane_left = ["prefix+h", "alt+h"]
+focus_pane_down = ["prefix+j", "alt+j"]
+focus_pane_up = ["prefix+k", "alt+k"]
+focus_pane_right = ["prefix+l", "alt+l"]
+split_vertical = ["prefix+v", "alt+d"]
+split_horizontal = ["prefix+minus", "alt+shift+d"]
+new_tab = ["prefix+c", "alt+t"]
+close_tab = ["prefix+shift+x", "alt+w"]
+close_pane = ["prefix+x", "alt+x"]
+zoom = ["prefix+z", "alt+z"]
 
 [keys.indexed]
 tabs = "ctrl"    # ctrl+1..9 switch tabs directly (no prefix)
