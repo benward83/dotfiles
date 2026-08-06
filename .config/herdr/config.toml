@@ -19,6 +19,22 @@ zoom = ["prefix+z", "alt+z"]
 tabs = "ctrl"    # ctrl+1..9 switch tabs directly (no prefix)
 agents = "alt"   # alt+1..9 focus agent rows directly
 
+# Plugin actions on direct keys
+[[keys.command]]
+key = "alt+f"    # note: Ghostty's alt+shift+right emits the same sequence (word jump) — accepted, unused
+type = "shell"
+command = "herdr plugin action invoke open-file-viewer"
+
+[[keys.command]]
+key = "alt+r"
+type = "shell"
+command = "herdr plugin action invoke toggle --plugin persiyanov.reviewr"
+
+[[keys.command]]
+key = "alt+m"
+type = "shell"
+command = "herdr plugin action invoke toggle --plugin nicosuave.memex"
+
 [ui]
 agent_panel_sort = "spaces"
 show_agent_labels_on_pane_borders = true
