@@ -93,6 +93,7 @@ echo "Dev tools:"
 check_link "$HOME/.config/nvim"               "$DOTFILES/.config/nvim"               "~/.config/nvim"
 check_link "$HOME/.config/starship.toml"      "$DOTFILES/.config/starship.toml"      "~/.config/starship.toml"
 check_link "$HOME/.config/lazygit/config.yml" "$DOTFILES/.config/lazygit/config.yml" "~/.config/lazygit/config.yml"
+check_link "$HOME/.config/herdr/config.toml"  "$DOTFILES/.config/herdr/config.toml"  "~/.config/herdr/config.toml"
 check_link "$HOME/.local/bin/env"             "$DOTFILES/.local/bin/env"             "~/.local/bin/env"
 echo ""
 

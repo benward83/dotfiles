@@ -41,7 +41,12 @@ fi
 # Neovim
 echo "✏️  Linking Neovim configuration..."
 mkdir -p "$HOME/.config"
-ln -sf "$DOTFILES/.config/nvim" "$HOME/.config/nvim"
+# A real directory at the target would swallow the link (ln -sf drops it
+# inside), leaving the dotfiles config uninstalled — move it aside first.
+if [ -d "$HOME/.config/nvim" ] && [ ! -L "$HOME/.config/nvim" ]; then
+  mv "$HOME/.config/nvim" "$HOME/.config/nvim.bak.$(date +%Y%m%d%H%M%S)"
+fi
+ln -sfn "$DOTFILES/.config/nvim" "$HOME/.config/nvim"
 
 # Starship
 echo "🚀 Linking Starship configuration..."
@@ -51,6 +56,11 @@ ln -sf "$DOTFILES/.config/starship.toml" "$HOME/.config/starship.toml"
 echo "🌿 Linking Lazygit configuration..."
 mkdir -p "$HOME/.config/lazygit"
 ln -sf "$DOTFILES/.config/lazygit/config.yml" "$HOME/.config/lazygit/config.yml"
+
+# Herdr (terminal workspace manager for agents) — sockets/logs in ~/.config/herdr stay local, only config.toml is linked
+echo "🐑 Linking Herdr configuration..."
+mkdir -p "$HOME/.config/herdr"
+ln -sf "$DOTFILES/.config/herdr/config.toml" "$HOME/.config/herdr/config.toml"
 
 # Tridactyl (Firefox vim bindings) — native messenger still needed per machine: :installnative
 echo "🦎 Linking Tridactyl configuration..."

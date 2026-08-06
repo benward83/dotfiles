@@ -1,0 +1,10 @@
+# herdr configuration — see `herdr --default-config` for all options
+# ~/.config/herdr/ also holds sockets/logs/session state; only this file is tracked.
+
+[keys.indexed]
+tabs = "ctrl"    # ctrl+1..9 switch tabs directly (no prefix)
+agents = "alt"   # alt+1..9 focus agent rows directly
+
+[ui]
+agent_panel_sort = "spaces"
+show_agent_labels_on_pane_borders = true
