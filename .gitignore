@@ -59,7 +59,6 @@ node_modules/
 .oh-my-zsh/
 
 # Neovim plugin directories and cache
-.config/nvim/plugin/
 .config/nvim/.lazy/
 .config/nvim/lazy-lock.json
 
