@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+cd "$(git rev-parse --show-toplevel)"
+
+if [ ! -d volumes ]; then
+  echo "No volumes/ directory here — this doesn't look like the main coverseal worktree." >&2
+  exit 1
+fi
+
+run() {
+  echo
+  echo "══> $*"
+  "$@"
+}
+
+run emb down
+run sudo rm -rf volumes/postgres
+run emb up
+
+echo
+echo "══> waiting for postgres and realtime to be healthy"
+healthy=false
+for _ in $(seq 1 60); do
+  pg=$(docker compose ps postgres --format '{{.Health}}' 2>/dev/null)
+  rt=$(docker compose ps realtime-dev --format '{{.Health}}' 2>/dev/null)
+  if [ "$pg" = "healthy" ] && [ "$rt" = "healthy" ]; then
+    healthy=true
+    break
+  fi
+  sleep 2
+done
+if [ "$healthy" != true ]; then
+  echo "stack not healthy after 120s — aborting before migrate." >&2
+  exit 1
+fi
+
+if ! run emb db.migrate --verbose; then
+  echo "══> migrate failed — retrying once in 5s"
+  sleep 5
+  run emb db.migrate --verbose
+fi
+
+run emb db.base
+run emb db.gen.types
+
+echo
+echo "✔ DB reset complete."

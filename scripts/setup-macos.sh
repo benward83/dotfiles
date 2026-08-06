@@ -71,6 +71,7 @@ ln -sf "$DOTFILES/.config/tridactyl/tridactylrc" "$HOME/.config/tridactyl/tridac
 echo "🔨 Linking local binaries..."
 mkdir -p "$HOME/.local/bin"
 ln -sf "$DOTFILES/.local/bin/env" "$HOME/.local/bin/env"
+ln -sf "$DOTFILES/.local/bin/coverseal-db-reset" "$HOME/.local/bin/coverseal-db-reset"
 
 # VS Code (when added later)
 if [ -f "$DOTFILES/vscode/settings.json" ]; then
