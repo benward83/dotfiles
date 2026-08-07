@@ -43,6 +43,11 @@ if [ -d "$HOME/.config/nvim" ] && [ ! -L "$HOME/.config/nvim" ]; then
 fi
 ln -sfn "$DOTFILES/.config/nvim" "$HOME/.config/nvim"
 
+# Global gitignore
+echo "🙈 Linking global gitignore..."
+mkdir -p "$HOME/.config/git"
+ln -sf "$DOTFILES/.config/git/ignore" "$HOME/.config/git/ignore"
+
 # Starship
 echo "🚀 Linking Starship configuration..."
 ln -sf "$DOTFILES/.config/starship.toml" "$HOME/.config/starship.toml"
