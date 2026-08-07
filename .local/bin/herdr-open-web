@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+# Project-aware opener for the herdr browser plugin (alt+o popup).
+# Picks URLs by the repo you're in; falls back to asking for one.
+set -euo pipefail
+
+plugin_root=$(herdr plugin list --json 2>/dev/null | python3 -c "
+import json, sys
+for p in json.load(sys.stdin)['result']['plugins']:
+    if p['plugin_id'] == 'official.browser':
+        print(p['plugin_root'])
+        break
+")
+if [ -z "$plugin_root" ]; then
+  echo "browser plugin not installed" >&2
+  read -r -n 1 -p "press any key"
+  exit 1
+fi
+
+live_view() {
+  bun run "$plugin_root/src/cli.ts" views 2>/dev/null | python3 -c "
+import json, subprocess, sys
+panes = subprocess.run(['herdr', 'pane', 'list'], capture_output=True, text=True).stdout
+views = [v for v in json.load(sys.stdin).get('views', []) if v.get('pane_id') and v['pane_id'] in panes]
+views.sort(key=lambda v: v.get('created_at') or '')
+print(views[-1]['view_id'] if views else '')
+"
+}
+
+open_url() {
+  # reuse the existing browser pane's view if one is alive, else open a pane
+  local view
+  view=$(live_view)
+  if [ -z "$view" ]; then
+    herdr plugin pane open --plugin official.browser --entrypoint browser >/dev/null
+    for _ in $(seq 1 15); do
+      view=$(live_view)
+      [ -n "$view" ] && break
+      sleep 0.3
+    done
+  fi
+  if [ -z "$view" ]; then
+    echo "no browser view appeared" >&2
+    read -r -n 1 -p "press any key"
+    exit 1
+  fi
+  HERDR_BROWSER_VIEW_ID="$view" bun run "$plugin_root/src/cli.ts" open "$1" >/dev/null
+}
+
+project=$(basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")
+
+case "$project" in
+  coverseal*)
+    echo "  [1] SMC        http://erp.localhost/login"
+    echo "  [2] Mobile     http://localhost/login"
+    echo "  [3] Studio     http://localhost:3000/project/default/sql/1"
+    echo "  [4] Mail       http://localhost:1080/"
+    read -r -n 1 -p "> " choice; echo
+    case "$choice" in
+      1) open_url "http://erp.localhost/login" ;;
+      2) open_url "http://localhost/login" ;;
+      3) open_url "http://localhost:3000/project/default/sql/1" ;;
+      4) open_url "http://localhost:1080/" ;;
+      *) exit 0 ;;
+    esac
+    ;;
+  dvc-erp-stack*)
+    echo "  [1] App        http://localhost:4004/projects/3"
+    echo "  [2] Mailbox    http://localhost:4004/projects/dev/mailbox"
+    read -r -n 1 -p "> " choice; echo
+    case "$choice" in
+      1) open_url "http://localhost:4004/projects/3" ;;
+      2) open_url "http://localhost:4004/projects/dev/mailbox" ;;
+      *) exit 0 ;;
+    esac
+    ;;
+  *)
+    read -r -p "url (or port): " target
+    [ -z "$target" ] && exit 0
+    case "$target" in
+      [0-9]*) open_url "http://localhost:$target/" ;;
+      *) open_url "$target" ;;
+    esac
+    ;;
+esac

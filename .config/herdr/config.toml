@@ -14,10 +14,13 @@ new_tab = ["prefix+c", "alt+t"]
 close_tab = ["prefix+shift+x", "alt+w"]
 close_pane = ["prefix+x", "alt+x"]
 zoom = ["prefix+z", "alt+z"]
+previous_workspace = "alt+comma"
+next_workspace = "alt+period"
 
 [keys.indexed]
-tabs = "ctrl"    # ctrl+1..9 switch tabs directly (no prefix)
-agents = "alt"   # alt+1..9 focus agent rows directly
+tabs = "ctrl"          # ctrl+1..9 switch tabs directly (no prefix)
+agents = "alt"         # alt+1..9 focus agent rows directly
+workspaces = "ctrl+shift"  # ctrl+shift+1..9 switch workspaces directly
 
 # Plugin actions on direct keys
 [[keys.command]]
@@ -35,6 +38,28 @@ key = "alt+m"
 type = "shell"
 command = "herdr plugin action invoke toggle --plugin nicosuave.memex"
 
+[[keys.command]]
+key = "alt+o"
+type = "pane"
+command = "herdr-open-web"
+
 [ui]
 agent_panel_sort = "spaces"
 show_agent_labels_on_pane_borders = true
+
+[ui.sidebar.spaces]
+row_gap = 1
+
+[ui.sidebar.agents]
+row_gap = 1
+rows = [
+  ["state_icon", { token = "state_text", bold = true }, "workspace", "tab"],
+  [{ token = "terminal_title_stripped", dim = true }],
+]
+
+[ui.sound]
+enabled = false
+
+[experimental]
+# Browser plugin renders pages as images; needs kitty graphics (Ghostty supports it)
+kitty_graphics = true
