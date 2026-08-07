@@ -14,6 +14,10 @@ new_tab = ["prefix+c", "alt+t"]
 close_tab = ["prefix+shift+x", "alt+w"]
 close_pane = ["prefix+x", "alt+x"]
 zoom = ["prefix+z", "alt+z"]
+previous_agent = "alt+p"
+next_agent = "alt+n"
+previous_tab = ["prefix+p", "alt+shift+p"]
+next_tab = ["prefix+n", "alt+shift+n"]
 previous_workspace = "alt+comma"
 next_workspace = "alt+period"
 
