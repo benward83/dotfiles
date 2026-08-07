@@ -96,6 +96,7 @@ check_link "$HOME/.config/lazygit/config.yml" "$DOTFILES/.config/lazygit/config.
 check_link "$HOME/.config/herdr/config.toml"  "$DOTFILES/.config/herdr/config.toml"  "~/.config/herdr/config.toml"
 check_link "$HOME/.local/bin/env"             "$DOTFILES/.local/bin/env"             "~/.local/bin/env"
 check_link "$HOME/.local/bin/coverseal-db-reset" "$DOTFILES/.local/bin/coverseal-db-reset" "~/.local/bin/coverseal-db-reset"
+check_link "$HOME/.local/bin/herdr-open-web" "$DOTFILES/.local/bin/herdr-open-web" "~/.local/bin/herdr-open-web"
 echo ""
 
 echo "Claude Code (from Obsidian vault):"

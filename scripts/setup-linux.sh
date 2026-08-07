@@ -67,6 +67,7 @@ echo "🔨 Linking local binaries..."
 mkdir -p "$HOME/.local/bin"
 ln -sf "$DOTFILES/.local/bin/env" "$HOME/.local/bin/env"
 ln -sf "$DOTFILES/.local/bin/coverseal-db-reset" "$HOME/.local/bin/coverseal-db-reset"
+ln -sf "$DOTFILES/.local/bin/herdr-open-web" "$HOME/.local/bin/herdr-open-web"
 
 # Electron/Chromium flags for Wayland/GPU compatibility
 echo "🎨 Linking Electron/Chromium flags..."
