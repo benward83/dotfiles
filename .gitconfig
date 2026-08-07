@@ -11,7 +11,7 @@
 # Use personal email for dotfiles and personal projects
 [includeIf "gitdir:~/.dotfiles/"]
 	path = ~/.gitconfig-personal
-[includeIf "gitdir:~/personal/"]
+[includeIf "gitdir:~/Work/Projects/"]
 	path = ~/.gitconfig-personal
 [sequence]
 	editor = code --wait
