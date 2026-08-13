@@ -20,15 +20,18 @@ if [ -f "$DOTFILES/linux/omarchy/config.sh" ]; then
     echo "📋 Using theme preference: $OMARCHY_THEME"
 fi
 
-# Symlink custom themes (if any)
+# Copy custom themes. These are deliberately copies, not symlinks: the Quattro
+# upgrade deletes every symlink in ~/.config/omarchy/themes without checking
+# where it points, so a symlinked theme would be lost on upgrade day.
 if [ -d "$DOTFILES/linux/omarchy/themes" ]; then
     mkdir -p "$HOME/.config/omarchy/themes"
 
     for theme_dir in "$DOTFILES/linux/omarchy/themes"/*; do
         if [ -d "$theme_dir" ] && [ "$(basename "$theme_dir")" != ".gitkeep" ]; then
             theme_name=$(basename "$theme_dir")
-            echo "🔗 Linking custom theme: $theme_name"
-            ln -sf "$theme_dir" "$HOME/.config/omarchy/themes/$theme_name"
+            echo "🎨 Copying custom theme: $theme_name"
+            rm -rf "$HOME/.config/omarchy/themes/$theme_name"
+            cp -r "$theme_dir" "$HOME/.config/omarchy/themes/$theme_name"
         fi
     done
 fi

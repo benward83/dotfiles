@@ -93,6 +93,7 @@ if [ -d "$DOTFILES/linux/omarchy/themes" ]; then
     for theme_dir in "$DOTFILES/linux/omarchy/themes"/*; do
         if [ -d "$theme_dir" ] && [ "$(basename "$theme_dir")" != ".gitkeep" ]; then
             theme_name=$(basename "$theme_dir")
+            rm -rf "$HOME/.config/omarchy/themes/$theme_name"
             cp -r "$theme_dir" "$HOME/.config/omarchy/themes/$theme_name"
         fi
     done

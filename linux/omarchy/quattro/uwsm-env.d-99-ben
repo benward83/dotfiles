@@ -1,0 +1,12 @@
+# Ported from .config/hypr/envs.conf (Omarchy 3.x)
+# Install to ~/.config/uwsm/env.d/99-ben — shell syntax, not Hyprland syntax.
+#
+# The other three vars from envs.conf are NOT here on purpose:
+#   TERMINAL=ghostty  -> omarchy default terminal ghostty
+#   EDITOR=code       -> omarchy default editor code
+#   BROWSER=firefox   -> omarchy default browser firefox
+# Omarchy manages all three itself, and it deliberately does not export BROWSER
+# session-wide because that makes xdg-settings refuse to change the default.
+
+# Electron app flags for AMD GPU compatibility
+export ELECTRON_OZONE_PLATFORM_HINT=auto

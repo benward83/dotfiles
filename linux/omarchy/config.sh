@@ -5,8 +5,8 @@
 
 # Your preferred Omarchy theme
 # Change this to your favorite theme
-OMARCHY_THEME="matte-black"
+OMARCHY_THEME="gruvbox"
 
 # Custom themes directory
 # Put your custom themes in ~/.dotfiles/linux/omarchy/themes/
-# They will be symlinked to ~/.config/omarchy/themes/ on setup
+# They are copied to ~/.config/omarchy/themes/ on setup
