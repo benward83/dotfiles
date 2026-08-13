@@ -79,6 +79,14 @@ mkdir -p "$HOME/.local/bin"
 ln -sf "$DOTFILES/.local/bin/env" "$HOME/.local/bin/env"
 ln -sf "$DOTFILES/.local/bin/coverseal-db-reset" "$HOME/.local/bin/coverseal-db-reset"
 ln -sf "$DOTFILES/.local/bin/herdr-open-web" "$HOME/.local/bin/herdr-open-web"
+ln -sf "$DOTFILES/.local/bin/omarchy-check-bindings" "$HOME/.local/bin/omarchy-check-bindings"
+
+# Run the binding check automatically after every Omarchy update. Omarchy
+# renames its own binaries without aliases and a binding pointing at a gone
+# command fails silently, so this is the only thing that surfaces it.
+echo "🔍 Installing post-update binding check..."
+mkdir -p "$HOME/.config/omarchy/hooks/post-update.d"
+ln -sf "$DOTFILES/.local/bin/omarchy-check-bindings" "$HOME/.config/omarchy/hooks/post-update.d/check-bindings"
 
 # Electron/Chromium flags for Wayland/GPU compatibility
 echo "🎨 Linking Electron/Chromium flags..."

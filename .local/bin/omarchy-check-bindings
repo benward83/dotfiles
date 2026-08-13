@@ -1,0 +1,55 @@
+#!/usr/bin/env bash
+
+# Check that every omarchy-* command referenced by the desktop config still
+# exists. Omarchy renames its own binaries between versions and leaves no alias,
+# and Hyprland does not complain when a binding execs something that isn't
+# there — the key just does nothing. omarchy-cmd-screenshot became
+# omarchy-capture-screenshot and two screenshot keys were dead for months.
+#
+# Runs as an Omarchy post-update hook and by hand. Only omarchy-* commands are
+# checked: third-party apps going missing is obvious, silent renames are not.
+
+set -uo pipefail
+
+files=()
+for f in "$HOME"/.config/hypr/*.conf "$HOME"/.config/hypr/*.lua "$HOME"/.config/waybar/config.jsonc; do
+    [ -f "$f" ] && files+=("$f")
+done
+
+if [ ${#files[@]} -eq 0 ]; then
+    echo "No desktop config found — nothing to check."
+    exit 0
+fi
+
+# Strip comments first so commented-out examples don't get reported.
+commands=$(sed -e 's/^[[:space:]]*#.*//' -e 's/^[[:space:]]*--.*//' "${files[@]}" |
+    grep -oE 'omarchy-[a-z0-9]+(-[a-z0-9]+)*' |
+    sort -u)
+
+missing=()
+while IFS= read -r cmd; do
+    [ -n "$cmd" ] || continue
+    command -v "$cmd" >/dev/null 2>&1 || missing+=("$cmd")
+done <<<"$commands"
+
+checked=$(wc -w <<<"$commands")
+
+if [ ${#missing[@]} -eq 0 ]; then
+    echo "✅ All $checked omarchy-* commands in the desktop config resolve."
+    exit 0
+fi
+
+echo "⚠️  ${#missing[@]} of $checked omarchy-* commands no longer exist:"
+printf '   %s\n' "${missing[@]}"
+echo
+echo "Find where each is used:"
+echo "   grep -rn '${missing[0]}' ~/.config/hypr ~/.config/waybar"
+
+if command -v notify-send >/dev/null 2>&1; then
+    notify-send -u critical "Broken desktop bindings" \
+        "$(printf '%s\n' "${missing[@]}") — run omarchy-check-bindings"
+fi
+
+# Deliberately 0: this runs inside omarchy-hook, which prints "Hook failed" on
+# any non-zero exit. The finding is not a failure of the check.
+exit 0

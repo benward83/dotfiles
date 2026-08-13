@@ -220,7 +220,9 @@ Hyprland uses a **layered configuration** approach:
 
 Media keys configured for volume control with wpctl.
 
-**Omarchy renames its own binaries between versions with no alias.** A binding pointing at a gone command fails silently — no error, nothing on screen. After any Omarchy upgrade, check every command in `bindings.conf` still resolves before assuming a key is "just broken".
+**Omarchy renames its own binaries between versions with no alias.** A binding pointing at a gone command fails silently — no error, nothing on screen.
+
+`omarchy-check-bindings` (in `.local/bin/`) catches this. It scans `~/.config/hypr/*.{conf,lua}` and the waybar config for `omarchy-*` commands that no longer resolve. `setup-linux.sh` symlinks it onto PATH and into `~/.config/omarchy/hooks/post-update.d/`, so it runs automatically after every `omarchy-update` and sends a critical notification on a hit.
 
 ## Omarchy Theme System (Linux Only)
 
