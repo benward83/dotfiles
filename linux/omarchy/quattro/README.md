@@ -13,12 +13,28 @@ customisation.
 
 | File | Replaces | Install to |
 | --- | --- | --- |
+| `hyprland.lua` | `hyprland.conf` | `~/.config/hypr/hyprland.lua` |
 | `bindings.lua` | `bindings.conf` | `~/.config/hypr/bindings.lua` |
 | `monitors.lua` | `monitors.conf` | `~/.config/hypr/monitors.lua` |
 | `input.lua` | `input.conf` | `~/.config/hypr/input.lua` |
 | `looknfeel.lua` | `looknfeel.conf` | `~/.config/hypr/looknfeel.lua` |
 | `autostart.lua` | `autostart.conf` | `~/.config/hypr/autostart.lua` |
 | `uwsm-env.d-99-ben` | `envs.conf` | `~/.config/uwsm/env.d/99-ben` |
+
+## The one decision baked in
+
+`hyprland.lua` sets `omarchy_preinstalled_bindings = false`.
+
+In Quattro, `o.bind` on a key that is already bound **adds a second dispatcher —
+it does not replace the first**. Both fire. Since `bindings.conf` overrides
+nearly every `SUPER+SHIFT+<letter>` that Omarchy binds for its own preinstalled
+apps, the alternative was an `hl.unbind` before almost every line. Turning the
+whole preinstalled set off is one line and does the same job.
+
+The consequence: Omarchy's own web app bindings (Calendar, Google Photos, Google
+Maps, Omawrite, its WhatsApp on `SUPER+SHIFT+ALT+G`) are gone. Everything in
+`bindings.lua` is what remains. The core window-manager bindings — workspaces,
+tiling, menus, capture, panels — are untouched.
 
 No port exists for `hypridle.conf` or `hyprlock.conf` — both packages are
 removed in Quattro. Idle timings become two integers in

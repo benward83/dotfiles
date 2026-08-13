@@ -1,31 +1,29 @@
 -- Ported from .config/hypr/bindings.conf (Omarchy 3.x)
 --
--- This file is required AFTER Omarchy's defaults, so any key here that Omarchy
--- already binds must be hl.unbind()'d first. Before installing this, list what
--- is actually bound:
+-- This assumes `omarchy_preinstalled_bindings = false` is set in hyprland.lua
+-- (see the staged hyprland.lua alongside this file). That switch drops every
+-- Omarchy default for preinstalled apps and web apps, which is nearly the whole
+-- SUPER+SHIFT+<letter> range, and leaves this file free to own it.
 --
---   omarchy menu keybindings --print
+-- Without that switch, almost every binding below would DOUBLE UP rather than
+-- replace: o.bind on an already-bound key adds a second dispatcher, it does not
+-- overwrite. Omarchy relies on that behaviour deliberately elsewhere.
 --
--- then add hl.unbind("...") above each collision.
---
--- SUPER+RETURN is deliberately absent. It is an Omarchy default that now routes
--- through xdg-terminal-exec; set the terminal with `omarchy default terminal
--- ghostty` instead of rebinding the key. Same for the editor and browser:
+-- The four "essential" defaults survive the switch and are still bound:
+--   SUPER+RETURN (terminal)   SUPER+SHIFT+RETURN (browser)
+--   SUPER+SHIFT+F (files)     SUPER+ALT+SHIFT+F (files, cwd)
+--   SUPER+SHIFT+B (browser)   SUPER+SHIFT+ALT+B (browser, private)
+--   SUPER+SHIFT+N (editor)
+-- Rather than override those, point Omarchy at the right apps:
+--   omarchy default terminal ghostty
 --   omarchy default editor code
 --   omarchy default browser firefox
-
-o.bind("SUPER + ALT + RETURN", "Tmux",
-  [[uwsm-app -- xdg-terminal-exec --dir="$(omarchy-cmd-terminal-cwd)" tmux new]])
+-- The defaults then do what bindings.conf used to do by hand, and SUPER+RETURN,
+-- SUPER+SHIFT+B/ALT+B, SUPER+SHIFT+N and SUPER+ALT+SHIFT+F need nothing here.
 
 -- Applications
-o.bind("SUPER + SHIFT + F", "File manager", { launch = "nautilus --new-window" })
-o.bind("SUPER + ALT + SHIFT + F", "File manager (cwd)",
-  [[uwsm-app -- nautilus --new-window "$(omarchy-cmd-terminal-cwd)"]])
-o.bind("SUPER + SHIFT + B", "Browser", { launch = "firefox" })
-o.bind("SUPER + SHIFT + ALT + B", "Browser (private)", { launch = "firefox --private" })
 o.bind("SUPER + SHIFT + M", "Music", { launch = "spotify --force-device-scale-factor=1.0", focus = "spotify" })
 o.bind("SUPER + SHIFT + ALT + M", "Music TUI", { tui = "cliamp", focus = true })
-o.bind("SUPER + SHIFT + N", "Editor", { omarchy = "editor" })
 o.bind("SUPER + SHIFT + T", "Telegram", { launch = "Telegram", focus = "org.telegram.desktop" })
 o.bind("SUPER + SHIFT + D", "Docker", { tui = "lazydocker" })
 o.bind("SUPER + SHIFT + G", "Signal", { launch = "signal-desktop", focus = "signal" })
@@ -36,8 +34,9 @@ o.bind("SUPER + SHIFT + O", "Obsidian", {
 })
 o.bind("SUPER + SHIFT + ALT + W", "Typora", { launch = "typora" })
 o.bind("SUPER + SHIFT + C", "Claude", { launch = "claude-desktop", focus = "claude-desktop" })
+o.bind("SUPER + SHIFT + P", "Activity", { tui = "btop" })
 
--- xkbcommon names this keysym "slash" in lower case; "SLASH" does not match.
+-- xkbcommon names this keysym in lower case; "SLASH" does not match.
 o.bind("SUPER + SHIFT + slash", "Passwords", { launch = "1password" })
 
 -- Web apps. With focus = true the description doubles as the window match,
@@ -51,23 +50,27 @@ o.bind("SUPER + SHIFT + CTRL + G", "Google Messages",
   { webapp = "https://messages.google.com/web/conversations", focus = true })
 o.bind("SUPER + SHIFT + X", "X", { webapp = "https://x.com/" })
 o.bind("SUPER + SHIFT + ALT + X", "X Post", { webapp = "https://x.com/compose/post" })
-o.bind("SUPER + SHIFT + P", "Activity", { tui = "btop" })
 
 o.bind("SUPER + ALT + SHIFT + G", "Ungroup all windows",
   [[hyprctl clients -j | jq -r '.[] | select(.grouped | length > 1) | .address' | while read addr; do hyprctl dispatch focuswindow "address:$addr" && hyprctl dispatch moveoutofgroup; done]])
 
--- Volume. Quattro binds these by default in default/hypr/bindings/media.lua and
--- routes through omarchy-audio-output-volume so the OSD fires — the raw wpctl
--- calls from 3.x are almost certainly redundant now. Check the defaults first
--- and delete this block if they are already there.
-o.bind("XF86AudioRaiseVolume", "Volume up", "omarchy-audio-output-volume raise", { locked = true, repeating = true })
-o.bind("XF86AudioLowerVolume", "Volume down", "omarchy-audio-output-volume lower", { locked = true, repeating = true })
-o.bind("XF86AudioMute", "Mute", "omarchy-audio-output-volume mute-toggle", { locked = true })
+-- Volume is NOT here on purpose. Quattro binds XF86AudioRaiseVolume /
+-- LowerVolume / Mute by default in default/hypr/bindings/media.lua, routed
+-- through omarchy-audio-output-volume so the on-screen display fires. The raw
+-- wpctl calls from bindings.conf would stack on top and fight it.
 
 -- Screenshots. Mac keyboard has no Print key; mimics macOS Cmd+Shift+3/4/5.
 -- SUPER+SHIFT+<num> is taken by workspace moves, so these use SUPER+CTRL.
--- TODO verify args on the day — the 3.x omarchy-cmd-screenshot fullscreen|region
--- became separate binaries and the argument forms are unconfirmed.
-o.bind("SUPER + CTRL + 3", "Screenshot (fullscreen)", "omarchy-capture-screenshot")
-o.bind("SUPER + CTRL + 4", "Screenshot (region)", "omarchy-capture-region")
-o.bind("SUPER + CTRL + 5", "Screen recording", "omarchy-capture-screenrecording")
+--
+-- These three DO collide. utilities.lua binds SUPER+CTRL+code:10..18 to the bar
+-- panels, and that is not gated by omarchy_preinstalled_bindings. It binds by
+-- keycode, so unbinding by keysym ("SUPER + CTRL + 3") will not match —
+-- keycodes 12, 13, 14 are the physical 3, 4 and 5 keys.
+hl.unbind("SUPER + CTRL + code:12")
+hl.unbind("SUPER + CTRL + code:13")
+hl.unbind("SUPER + CTRL + code:14")
+
+o.bind("SUPER + CTRL + 3", "Screenshot (fullscreen)", "omarchy-capture-screenshot fullscreen")
+o.bind("SUPER + CTRL + 4", "Screenshot (region)", "omarchy-capture-screenshot region")
+o.bind("SUPER + CTRL + 5", "Screen recording",
+  "omarchy-capture-screenrecording --stop-recording || omarchy-menu toggle trigger.capture.screenrecord")
