@@ -34,6 +34,12 @@ mkdir -p "$HOME/.config/ghostty"
 ln -sf "$DOTFILES/.config/ghostty/config" "$HOME/.config/ghostty/config"
 ln -sf "$DOTFILES/.config/ghostty/linux.conf" "$HOME/.config/ghostty/platform.conf"
 
+# Waybar — only the two config files are linked; Omarchy writes nothing else here
+echo "📊 Linking Waybar configuration..."
+mkdir -p "$HOME/.config/waybar"
+ln -sf "$DOTFILES/.config/waybar/config.jsonc" "$HOME/.config/waybar/config.jsonc"
+ln -sf "$DOTFILES/.config/waybar/style.css" "$HOME/.config/waybar/style.css"
+
 # Neovim
 echo "✏️  Linking Neovim configuration..."
 # A real directory at the target would swallow the link (ln -sf drops it
