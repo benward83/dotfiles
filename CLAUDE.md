@@ -131,12 +131,16 @@ Examples:
 │   ├── warp-terminal/
 │   ├── starship.toml
 │   ├── lazygit/config.yml
+│   ├── waybar/                  # Status bar (Linux only)
+│   │   ├── config.jsonc         # Modules and layout
+│   │   └── style.css            # Bar styling
 │   ├── git/ignore               # Global gitignore
 │   └── Code/                    # VS Code (tracked via vscode/ dir)
 ├── linux/
 │   └── omarchy/
 │       ├── config.sh            # Theme preference
-│       └── themes/              # Custom themes
+│       ├── themes/              # Custom themes (copied, not symlinked)
+│       └── quattro/             # Staged Lua port for Omarchy 4 — inert, not sourced
 ├── vscode/
 │   ├── settings.json            # VS Code settings
 │   ├── keybindings.json         # VS Code keybindings
@@ -197,20 +201,26 @@ Hyprland uses a **layered configuration** approach:
 **IMPORTANT**: Never edit Omarchy defaults directly. Always override in personal config files.
 
 ### Custom Keybindings (bindings.conf)
-Key application shortcuts:
-- `SUPER + Return`: Terminal (warp-terminal)
-- `SUPER + SHIFT + B`: Browser
+`bindings.conf` is the source of truth — read it rather than trusting this list. The main ones:
+- `SUPER + Return`: Terminal (ghostty)
+- `SUPER + ALT + Return`: Terminal with tmux, in the current directory
+- `SUPER + SHIFT + B`: Browser (firefox)
 - `SUPER + SHIFT + F`: File manager (Nautilus)
 - `SUPER + SHIFT + N`: Editor
-- `SUPER + SHIFT + D`: Lazydocker (in alacritty)
-- `SUPER + SHIFT + T`: btop (system monitor)
+- `SUPER + SHIFT + D`: Lazydocker
+- `SUPER + SHIFT + P`: btop (system monitor)
 - `SUPER + SHIFT + O`: Obsidian
 - `SUPER + SHIFT + /`: 1Password
 - `SUPER + SHIFT + A`: ChatGPT (web app)
 - `SUPER + SHIFT + E`: Email (Hey)
-- `SUPER + SHIFT + C`: Calendar
+- `SUPER + SHIFT + C`: Claude Desktop
+- `SUPER + SHIFT + T`: Telegram
+- `SUPER + SHIFT + S`: Slack
+- `SUPER + CTRL + 3/4/5`: Screenshot fullscreen / region / screen recording
 
 Media keys configured for volume control with wpctl.
+
+**Omarchy renames its own binaries between versions with no alias.** A binding pointing at a gone command fails silently — no error, nothing on screen. After any Omarchy upgrade, check every command in `bindings.conf` still resolves before assuming a key is "just broken".
 
 ## Omarchy Theme System (Linux Only)
 
@@ -219,6 +229,10 @@ Media keys configured for volume control with wpctl.
 - Theme preference in `linux/omarchy/config.sh` (set `OMARCHY_THEME="theme-name"`)
 - Apply with: `omarchy theme set <theme-name>`
 - List themes: `omarchy theme list`
+
+**Themes are copied into `~/.config/omarchy/themes/`, never symlinked.** The Omarchy 4 upgrade deletes every symlink in that directory without checking where it points, so a symlinked theme would be lost. Edit in `linux/omarchy/themes/`, then re-run `scripts/omarchy-setup.sh` to push the change out.
+
+`config.sh` is only read by the setup scripts, never at boot, so it drifts from the running theme silently. Check it against `~/.config/omarchy/current/theme.name` when touching themes.
 
 ### Hot Reload
 Omarchy themes support hot-reloading. Neovim config includes Omarchy theme watching for live updates.
