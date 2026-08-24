@@ -2,6 +2,13 @@ onboarding = false
 # herdr configuration — see `herdr --default-config` for all options
 # ~/.config/herdr/ also holds sockets/logs/session state; only this file is tracked.
 
+# Keep active workspace/agent state visibly distinct on both Ghostty platforms.
+# `active_row_bg` follows focus; `selection_bg` is only the sidebar Navigate cursor.
+[theme.custom]
+sidebar_bg = "#181825"
+active_row_bg = "#45475a"
+selection_bg = "#585b70"
+
 [keys]
 # Prefix-free layer on plain alt — same delivery path as the proven alt+1..9.
 # Each action lists its ctrl+b default too, since overriding replaces defaults.
@@ -9,6 +16,10 @@ focus_pane_left = ["prefix+h", "alt+h"]
 focus_pane_down = ["prefix+j", "alt+j"]
 focus_pane_up = ["prefix+k", "alt+k"]
 focus_pane_right = ["prefix+l", "alt+l"]
+resize_pane_left = "alt+shift+h"
+resize_pane_down = "alt+shift+j"
+resize_pane_up = "alt+shift+k"
+resize_pane_right = "alt+shift+l"
 split_vertical = ["prefix+v", "alt+d"]
 split_horizontal = ["prefix+minus", "alt+shift+d"]
 new_tab = ["prefix+c", "alt+t"]
