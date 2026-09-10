@@ -22,9 +22,9 @@
 -- SUPER+SHIFT+B/ALT+B, SUPER+SHIFT+N and SUPER+ALT+SHIFT+F need nothing here.
 
 -- Applications
+o.bind("SUPER + SHIFT + M", "Music", { launch = "spotify --force-device-scale-factor=1.0", focus = "spotify" })
 o.bind("SUPER + ALT + RETURN", "Tmux",
   [[uwsm-app -- xdg-terminal-exec --dir="$(omarchy-cmd-terminal-cwd)" tmux new]])
-o.bind("SUPER + SHIFT + M", "Music", { launch = "spotify --force-device-scale-factor=1.0", focus = "spotify" })
 o.bind("SUPER + SHIFT + ALT + M", "Music TUI", { tui = "cliamp", focus = true })
 o.bind("SUPER + SHIFT + T", "Telegram", { launch = "Telegram", focus = "org.telegram.desktop" })
 o.bind("SUPER + SHIFT + D", "Docker", { tui = "lazydocker" })
@@ -64,13 +64,17 @@ o.bind("SUPER + ALT + SHIFT + G", "Ungroup all windows",
 -- Screenshots. Mac keyboard has no Print key; mimics macOS Cmd+Shift+3/4/5.
 -- SUPER+SHIFT+<num> is taken by workspace moves, so these use SUPER+CTRL.
 --
--- These three DO collide. utilities.lua binds SUPER+CTRL+code:10..18 to the bar
--- panels, and that is not gated by omarchy_preinstalled_bindings. It binds by
--- keycode, so unbinding by keysym ("SUPER + CTRL + 3") will not match —
--- keycodes 12, 13, 14 are the physical 3, 4 and 5 keys.
-hl.unbind("SUPER + CTRL + code:12")
-hl.unbind("SUPER + CTRL + code:13")
-hl.unbind("SUPER + CTRL + code:14")
+-- Move all nine bar-panel shortcuts from SUPER+CTRL to SUPER+CTRL+ALT.
+-- Defaults use physical keycodes (10..18), so unbind by code, not keysym.
+-- Keep the stock positional lookup so these follow the current bar order.
+for panel = 1, 9 do
+  hl.unbind("SUPER + CTRL + code:" .. tostring(panel + 9))
+  o.bind(
+    "SUPER + CTRL + ALT + code:" .. tostring(panel + 9),
+    "Bar panel " .. panel,
+    "omarchy-shell -q shell togglePanelAt right " .. panel
+  )
+end
 
 o.bind("SUPER + CTRL + 3", "Screenshot (fullscreen)", "omarchy-capture-screenshot fullscreen")
 o.bind("SUPER + CTRL + 4", "Screenshot (region)", "omarchy-capture-screenshot region")

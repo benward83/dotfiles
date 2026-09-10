@@ -43,10 +43,16 @@
           "id": "omarchy.tray"
         },
         {
+          "id": "omarchy.agents"
+        },
+        {
           "id": "omarchy.tailscale"
         },
         {
-          "id": "omarchy.agents"
+          "id": "omarchy.monitor"
+        },
+        {
+          "id": "crmne.hyprmoncfg"
         },
         {
           "id": "omarchy.bluetooth"
@@ -56,9 +62,6 @@
         },
         {
           "id": "omarchy.audio"
-        },
-        {
-          "id": "omarchy.monitor"
         },
         {
           "id": "omarchy.power"
